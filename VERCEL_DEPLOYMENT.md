@@ -67,6 +67,37 @@ If you want to test the CMS functionality temporarily:
 2. **Deploy to Vercel** for display only
 3. **Manually update default data** in `src/lib/storage.ts`
 
+## 🔑 Environment Variables Setup
+
+### Required for Vercel Deployment:
+
+1. **TinyMCE API Key** (Optional but recommended):
+   - Get free API key from: https://www.tiny.cloud/
+   - Add to Vercel: `NEXT_PUBLIC_TINYMCE_KEY=your-api-key`
+   - Without key: TinyMCE shows warning but still works
+
+2. **Admin Credentials**:
+   - `ADMIN_EMAIL=sudarshan@gmail.com`
+   - `ADMIN_PASSWORD=12345`
+
+### Setup Steps:
+📋 **Detailed Guide**: See `VERCEL_ENV_SETUP.md` for step-by-step instructions
+
+1. Go to your Vercel project dashboard
+2. Click "Settings" → "Environment Variables"
+3. Add the variables from `.env.production`
+4. Redeploy your application
+
+**Quick Copy Values:**
+- `NEXT_PUBLIC_TINYMCE_KEY=3s56zd5mja7nsbhf1m3u4fup9jo0q3hngi4l30ddydty5sh0`
+- `ADMIN_EMAIL=sudarshan@gmail.com`
+- `ADMIN_PASSWORD=12345`
+
+### Alternative (No API Key):
+The app now works without TinyMCE API key but will show:
+- "This domain is not registered..." warning in editor
+- All other functionality works perfectly
+
 ## 📋 Current Default Content
 
 ### Photo Gallery

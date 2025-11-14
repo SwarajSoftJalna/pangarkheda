@@ -3,13 +3,5 @@
     "app/api/**/*.ts": {
       "runtime": "nodejs18.x"
     }
-  },
-  "env": {
-    "NEXT_PUBLIC_TINYMCE_KEY": "@tinymce-api-key"
-  },
-  "build": {
-    "env": {
-      "NEXT_PUBLIC_TINYMCE_KEY": "@tinymce-api-key"
-    }
   }
 }

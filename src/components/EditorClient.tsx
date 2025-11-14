@@ -38,7 +38,7 @@ export default function EditorClient({
     <div className="w-full">
       {/* @ts-ignore - Suppress TypeScript error for Editor component */}
       <Editor
-        apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY}
+        apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY || 'no-api-key'}
         onInit={(evt: any, editor: any) => editorRef.current = editor}
         value={value}
         onEditorChange={handleEditorChange}
