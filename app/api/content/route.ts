@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getContent, updateContent, getAdminProfile, updateAdminProfile, MenuItem } from '@/lib/storage';
+import { getVercelContentData, updateVercelContentData } from '@/lib/vercel-storage';
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,7 +12,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(profile);
     }
 
-    const content = getContent();
+    const content = getVercelContentData();
     return NextResponse.json(content);
   } catch (error) {
     console.error('Error fetching content:', error);
@@ -173,7 +174,7 @@ export async function POST(request: NextRequest) {
     if (populationStats !== undefined) updateData.populationStats = populationStats;
     if (govtLogos !== undefined) updateData.govtLogos = govtLogos;
 
-    const updatedContent = updateContent(updateData);
+    const updatedContent = updateVercelContentData(updateData);
 
     return NextResponse.json({
       message: 'Content updated successfully',
