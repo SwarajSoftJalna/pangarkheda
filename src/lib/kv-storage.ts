@@ -1,0 +1,451 @@
+// Vercel KV Storage - Persistent across deployments
+// This replaces the in-memory storage with persistent key-value storage
+
+import { kv } from '@vercel/kv';
+import {
+  ContentData,
+  PadadhikariData,
+  FooterData,
+  PhotoGalleryData,
+  NagrikData,
+  AdminProfile
+} from './storage';
+
+// Default data (same as before)
+const defaultContentStore: ContentData = {
+  preheader: '<p>ग्रामपंचायत सावरगाव हडप, जालना</p>',
+  header: [
+    { id: '1', title: 'होम', url: '/' },
+    { id: '2', title: 'पदाधिकारी', url: '/padadhikari' },
+    { id: '3', title: 'करभारणा', url: '/karbharana' },
+    { id: '4', title: 'नागरिकांसाठी', url: '/nagrik' },
+    { id: '5', title: 'फोटो गॅलरी', url: '/photo' },
+    { id: '6', title: 'योजना', url: '#', subItems: [
+      { id: '6-1', title: 'यशोदाथा योजना', url: '#' },
+      { id: '6-2', title: 'महात्मा गांधी तंटाश्री ग्रामीण अभियान', url: '#' },
+      { id: '6-3', title: 'राष्ट्रीय ग्रामीण पेयजल योजना', url: '#' },
+      { id: '6-4', title: 'प्रधानमंत्री आवास योजना', url: '#' },
+      { id: '6-5', title: 'सौर ऊर्जा योजना', url: '#' }
+    ]}
+  ],
+  headerTitle: 'ग्रामपंचायत सावरगाव हडप',
+  headerSubtitle: 'जालना, महाराष्ट्र',
+  bannerImage: '',
+  about: '<h2>आमची पदाधिकारी</h2><p>ग्रामपंचायत सावरगाव हडप, जालना</p>',
+  yashodatha: '<h2>यशोदाथा योजना</h2><p>ग्रामपंचायत सावरगाव हडप येथील यशोदाथा योजनेची माहिती</p>',
+  homepage: '<div><h1>ग्रामपंचायत सावरगाव हडप, जालना</h1><p>आपल्या गावाची प्रगती, आपली जबाबदारी</p></div>',
+  administrativeStructureHeading: 'प्रशासकीय संरचना',
+  administrativeStructureImage: '',
+  officeBearers: [],
+  ctaSection: {
+    heading: 'भारतातील पंचायती राज हे ग्रामीण स्थानिक स्वराज्य प्रणालीचे प्रतीक आहे.',
+    subheading: 'जन्म, मृत्यू व विवाह यांची नोंदणी अवश्य करा...',
+    phone: '+91-9730746355',
+    images: []
+  },
+  populationStats: {
+    mainHeading: 'लोकसंख्या आकडेवारी',
+    items: [
+      { id: '1', icon: '👨‍👩‍👧', count: 740, label: 'कुटुंब' },
+      { id: '2', icon: '🏠', count: 3241, label: 'लोकसंख्या' },
+      { id: '3', icon: '👨', count: 1730, label: 'पुरुष' },
+      { id: '4', icon: '👩', count: 1511, label: 'महिला' }
+    ]
+  },
+  govtLogos: [],
+  lastUpdated: new Date().toISOString()
+};
+
+const defaultFooterData: FooterData = {
+  column1: [
+    { label: 'मुख्यपृष्ठ', url: '/' },
+    { label: 'आमच्या बद्दल', url: '#' },
+    { label: 'संपर्क', url: '#' }
+  ],
+  column2: [
+    { label: 'योजना', url: '#' },
+    { label: 'सेवा', url: '#' },
+    { label: 'डाउनलोड', url: '#' }
+  ],
+  social: {
+    instagram: '#',
+    twitter: '#',
+    facebook: '#',
+    youtube: '#'
+  },
+  address: {
+    lines: 'ग्रामपंचायत सावरगाव हडप, ता. जालना, जि. जालना, पिन कोड: 431203',
+    phone: '+91-9730746355',
+    mapLink: 'https://maps.google.com/?q=Savargaon+Hadap+Jalna',
+    code: 'GP-MAH-JAL-001'
+  }
+};
+
+const defaultPadadhikariData: PadadhikariData = {
+  tab1: [
+    {
+      id: '1',
+      image: '',
+      name: 'श्रीमती इंदुबाई राऊत',
+      role: 'सरपंच',
+      active: true
+    },
+    {
+      id: '2',
+      image: '',
+      name: 'श्रीमती अलका ढोरे',
+      role: 'ग्रामपंचायत अधिकारी',
+      active: true
+    }
+  ],
+  tab2: [
+    {
+      id: '3',
+      image: '',
+      name: 'श्री तुषार पाटील',
+      role: 'लेखापाल',
+      active: true
+    }
+  ],
+  tab3: [
+    {
+      id: '4',
+      image: '',
+      name: 'श्रीमती सोनाबाई आनंद',
+      role: 'सदस्य',
+      active: true
+    }
+  ]
+};
+
+const defaultPhotoGalleryData: PhotoGalleryData = {
+  heading: 'आम्ही आरोग्य करीता कटिबद्ध आहोत',
+  subheading: 'आमच्या ग्रामपंचायतीत सांस्कृतिक, क्रीडा आणि सामाजिक कार्यक्रमांचे आयोजन केले जाते.',
+  images: [
+    {
+      id: '1',
+      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
+      caption: 'आरोग्य शिबीर'
+    },
+    {
+      id: '2',
+      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
+      caption: 'शाळा सभागृह कार्यक्रम'
+    },
+    {
+      id: '3',
+      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
+      caption: 'महिला गट उपक्रम'
+    },
+    {
+      id: '4',
+      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
+      caption: 'ग्रामसभा कार्यक्रम'
+    },
+    {
+      id: '5',
+      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
+      caption: 'आरोग्य जनजागृती शिबीर'
+    },
+    {
+      id: '6',
+      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
+      caption: 'सामाजिक अभियान'
+    }
+  ]
+};
+
+const defaultNagrikData: NagrikData = {
+  accordions: [
+    {
+      id: '1',
+      title: 'स्व: घोषणा पत्र',
+      items: [
+        {
+          id: '1-1',
+          label: 'शौचालय असल्याबाबत स्वयंघोषणापत्र',
+          type: 'pdf',
+          url: ''
+        },
+        {
+          id: '1-2',
+          label: 'रहिवाशी स्वयंघोषणापत्र',
+          type: 'pdf',
+          url: ''
+        }
+      ]
+    },
+    {
+      id: '2',
+      title: 'अर्ज',
+      items: [
+        {
+          id: '2-1',
+          label: 'मंजूर नोंदणी अर्ज',
+          type: 'pdf',
+          url: ''
+        },
+        {
+          id: '2-2',
+          label: 'ऑनलाइन दाखले मिळविण्यासाठी इथे क्लिक करा',
+          type: 'link',
+          url: 'https://example.com'
+        }
+      ]
+    },
+    {
+      id: '3',
+      title: 'ग्रामपंचायती मार्फत दिले जाणारे महसूल विभागाचे दाखले',
+      items: [
+        {
+          id: '3-1',
+          label: 'जातीचा दाखला अर्ज',
+          type: 'pdf',
+          url: ''
+        }
+      ]
+    },
+    {
+      id: '4',
+      title: 'तक्रार',
+      items: [
+        {
+          id: '4-1',
+          label: 'ऑनलाइन तक्रारीसाठी इथे क्लिक करा (शासकीय पोर्टल)',
+          type: 'link',
+          url: 'https://example.com'
+        }
+      ]
+    }
+  ]
+};
+
+const defaultAdminProfile: AdminProfile = {
+  displayName: 'Administrator',
+  email: 'sudarshan@gmail.com'
+};
+
+// KV Storage Keys
+const KV_KEYS = {
+  CONTENT: 'cms:content',
+  PADADHIKARI: 'cms:padadhikari',
+  FOOTER: 'cms:footer',
+  PHOTO_GALLERY: 'cms:photo-gallery',
+  NAGRIK: 'cms:nagrik',
+  ADMIN_PROFILE: 'cms:admin-profile'
+} as const;
+
+// Content data functions
+export const getKVContentData = async (): Promise<ContentData> => {
+  try {
+    const cached = await kv.get<ContentData>(KV_KEYS.CONTENT);
+    if (cached) {
+      return cached;
+    }
+  } catch (error) {
+    console.error('Error reading content from KV:', error);
+  }
+  
+  // Return default if KV fails or no data exists
+  return defaultContentStore;
+};
+
+export const updateKVContentData = async (contentData: Partial<ContentData>): Promise<ContentData> => {
+  try {
+    const currentContent = await getKVContentData();
+    const updatedContent = { ...currentContent, ...contentData, lastUpdated: new Date().toISOString() };
+    
+    await kv.set(KV_KEYS.CONTENT, updatedContent);
+    console.log('Content updated (KV storage):', Object.keys(contentData));
+    
+    return updatedContent;
+  } catch (error) {
+    console.error('Error updating content in KV:', error);
+    throw new Error('Failed to update content');
+  }
+};
+
+// Padadhikari data functions
+export const getKVPadadhikariData = async (): Promise<PadadhikariData> => {
+  try {
+    const cached = await kv.get<PadadhikariData>(KV_KEYS.PADADHIKARI);
+    if (cached) {
+      return cached;
+    }
+  } catch (error) {
+    console.error('Error reading padadhikari from KV:', error);
+  }
+  
+  return defaultPadadhikariData;
+};
+
+export const updateKVPadadhikariData = async (padadhikariData: Partial<PadadhikariData>): Promise<PadadhikariData> => {
+  try {
+    const currentPadadhikari = await getKVPadadhikariData();
+    const updatedPadadhikari = { ...currentPadadhikari, ...padadhikariData };
+    
+    await kv.set(KV_KEYS.PADADHIKARI, updatedPadadhikari);
+    console.log('Padadhikari updated (KV storage)');
+    
+    return updatedPadadhikari;
+  } catch (error) {
+    console.error('Error updating padadhikari in KV:', error);
+    throw new Error('Failed to update padadhikari');
+  }
+};
+
+// Footer data functions
+export const getKVFooterData = async (): Promise<FooterData> => {
+  try {
+    const cached = await kv.get<FooterData>(KV_KEYS.FOOTER);
+    if (cached) {
+      return cached;
+    }
+  } catch (error) {
+    console.error('Error reading footer from KV:', error);
+  }
+  
+  return defaultFooterData;
+};
+
+export const updateKVFooterData = async (footerData: Partial<FooterData>): Promise<FooterData> => {
+  try {
+    const currentFooter = await getKVFooterData();
+    const updatedFooter = { ...currentFooter, ...footerData };
+    
+    await kv.set(KV_KEYS.FOOTER, updatedFooter);
+    console.log('Footer updated (KV storage)');
+    
+    return updatedFooter;
+  } catch (error) {
+    console.error('Error updating footer in KV:', error);
+    throw new Error('Failed to update footer');
+  }
+};
+
+// Photo gallery data functions
+export const getKVPhotoGalleryData = async (): Promise<PhotoGalleryData> => {
+  try {
+    const cached = await kv.get<PhotoGalleryData>(KV_KEYS.PHOTO_GALLERY);
+    if (cached) {
+      return cached;
+    }
+  } catch (error) {
+    console.error('Error reading photo gallery from KV:', error);
+  }
+  
+  return defaultPhotoGalleryData;
+};
+
+export const updateKVPhotoGalleryData = async (photoGalleryData: Partial<PhotoGalleryData>): Promise<PhotoGalleryData> => {
+  try {
+    const currentPhotoGallery = await getKVPhotoGalleryData();
+    const updatedPhotoGallery = { ...currentPhotoGallery, ...photoGalleryData };
+    
+    await kv.set(KV_KEYS.PHOTO_GALLERY, updatedPhotoGallery);
+    console.log('Photo gallery updated (KV storage):', photoGalleryData.heading ? `Updated heading: ${photoGalleryData.heading}` : 'Updated images');
+    
+    return updatedPhotoGallery;
+  } catch (error) {
+    console.error('Error updating photo gallery in KV:', error);
+    throw new Error('Failed to update photo gallery');
+  }
+};
+
+// Nagrik data functions
+export const getKVNagrikData = async (): Promise<NagrikData> => {
+  try {
+    const cached = await kv.get<NagrikData>(KV_KEYS.NAGRIK);
+    if (cached) {
+      return cached;
+    }
+  } catch (error) {
+    console.error('Error reading nagrik from KV:', error);
+  }
+  
+  return defaultNagrikData;
+};
+
+export const updateKVNagrikData = async (nagrikData: Partial<NagrikData>): Promise<NagrikData> => {
+  try {
+    const currentNagrik = await getKVNagrikData();
+    const updatedNagrik = { ...currentNagrik, ...nagrikData };
+    
+    await kv.set(KV_KEYS.NAGRIK, updatedNagrik);
+    console.log('Nagrik updated (KV storage)');
+    
+    return updatedNagrik;
+  } catch (error) {
+    console.error('Error updating nagrik in KV:', error);
+    throw new Error('Failed to update nagrik');
+  }
+};
+
+// Admin profile functions
+export const getKVAdminProfile = async (): Promise<AdminProfile> => {
+  try {
+    const cached = await kv.get<AdminProfile>(KV_KEYS.ADMIN_PROFILE);
+    if (cached) {
+      return cached;
+    }
+  } catch (error) {
+    console.error('Error reading admin profile from KV:', error);
+  }
+  
+  return defaultAdminProfile;
+};
+
+export const updateKVAdminProfile = async (profileData: Partial<AdminProfile>): Promise<AdminProfile> => {
+  try {
+    const currentProfile = await getKVAdminProfile();
+    const updatedProfile = { ...currentProfile, ...profileData };
+    
+    await kv.set(KV_KEYS.ADMIN_PROFILE, updatedProfile);
+    console.log('Admin profile updated (KV storage)');
+    
+    return updatedProfile;
+  } catch (error) {
+    console.error('Error updating admin profile in KV:', error);
+    throw new Error('Failed to update admin profile');
+  }
+};
+
+// Utility function to initialize all data with defaults
+export const initializeKVData = async (): Promise<void> => {
+  try {
+    // Check if content exists, if not initialize with defaults
+    const contentExists = await kv.exists(KV_KEYS.CONTENT);
+    if (!contentExists) {
+      await kv.set(KV_KEYS.CONTENT, defaultContentStore);
+    }
+
+    const padadhikariExists = await kv.exists(KV_KEYS.PADADHIKARI);
+    if (!padadhikariExists) {
+      await kv.set(KV_KEYS.PADADHIKARI, defaultPadadhikariData);
+    }
+
+    const footerExists = await kv.exists(KV_KEYS.FOOTER);
+    if (!footerExists) {
+      await kv.set(KV_KEYS.FOOTER, defaultFooterData);
+    }
+
+    const photoGalleryExists = await kv.exists(KV_KEYS.PHOTO_GALLERY);
+    if (!photoGalleryExists) {
+      await kv.set(KV_KEYS.PHOTO_GALLERY, defaultPhotoGalleryData);
+    }
+
+    const nagrikExists = await kv.exists(KV_KEYS.NAGRIK);
+    if (!nagrikExists) {
+      await kv.set(KV_KEYS.NAGRIK, defaultNagrikData);
+    }
+
+    const adminProfileExists = await kv.exists(KV_KEYS.ADMIN_PROFILE);
+    if (!adminProfileExists) {
+      await kv.set(KV_KEYS.ADMIN_PROFILE, defaultAdminProfile);
+    }
+
+    console.log('KV data initialized successfully');
+  } catch (error) {
+    console.error('Error initializing KV data:', error);
+  }
+};

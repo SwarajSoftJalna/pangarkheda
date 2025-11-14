@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getVercelPhotoGalleryData, updateVercelPhotoGalleryData } from '@/lib/vercel-storage';
+import { 
+  getKVPhotoGalleryData, 
+  updateKVPhotoGalleryData,
+  initializeKVData 
+} from '@/lib/kv-storage';
 
 export async function GET() {
   try {
-    const photoGalleryData = getVercelPhotoGalleryData();
+    const photoGalleryData = await getKVPhotoGalleryData();
     return NextResponse.json({ photoGallery: photoGalleryData });
   } catch (error) {
     console.error('Error fetching photo gallery data:', error);
@@ -74,7 +78,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const updatedPhotoGallery = updateVercelPhotoGalleryData(photoGallery);
+    const updatedPhotoGallery = await updateKVPhotoGalleryData(photoGallery);
 
     return NextResponse.json({
       message: 'Photo gallery updated successfully',

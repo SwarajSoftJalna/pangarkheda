@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getVercelContentData, updateVercelContentData, getVercelAdminProfile, updateVercelAdminProfile } from '@/lib/vercel-storage';
+import { 
+  getKVContentData, 
+  updateKVContentData, 
+  getKVAdminProfile, 
+  updateKVAdminProfile,
+  initializeKVData 
+} from '@/lib/kv-storage';
 
 export async function GET(request: NextRequest) {
   try {
@@ -7,11 +13,11 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type');
 
     if (type === 'profile') {
-      const profile = getVercelAdminProfile();
+      const profile = await getKVAdminProfile();
       return NextResponse.json(profile);
     }
 
-    const content = getVercelContentData();
+    const content = await getKVContentData();
     return NextResponse.json(content);
   } catch (error) {
     console.error('Error fetching content:', error);
@@ -37,7 +43,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const updatedProfile = updateVercelAdminProfile({ displayName, email });
+      const updatedProfile = await updateKVAdminProfile({ displayName, email });
       return NextResponse.json({
         message: 'Profile updated successfully',
         profile: updatedProfile,
@@ -173,7 +179,7 @@ export async function POST(request: NextRequest) {
     if (populationStats !== undefined) updateData.populationStats = populationStats;
     if (govtLogos !== undefined) updateData.govtLogos = govtLogos;
 
-    const updatedContent = updateVercelContentData(updateData);
+    const updatedContent = await updateKVContentData(updateData);
 
     return NextResponse.json({
       message: 'Content updated successfully',
@@ -229,7 +235,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const updatedContent = updateVercelContentData({ [field]: content });
+    const updatedContent = await updateKVContentData({ [field]: content });
 
     return NextResponse.json({
       message: `${field} updated successfully`,
