@@ -7,6 +7,9 @@ import {
 
 export async function GET() {
   try {
+    // Initialize KV data if needed (only runs once)
+    await initializeKVData();
+    
     const nagrikData = await getKVNagrikData();
     return NextResponse.json({ nagrik: nagrikData });
   } catch (error) {

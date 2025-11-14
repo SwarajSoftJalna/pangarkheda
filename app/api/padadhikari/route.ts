@@ -7,6 +7,9 @@ import {
 
 export async function GET() {
   try {
+    // Initialize KV data if needed (only runs once)
+    await initializeKVData();
+    
     const padadhikariData = await getKVPadadhikariData();
     return NextResponse.json({ padadhikari: padadhikariData });
   } catch (error) {

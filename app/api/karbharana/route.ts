@@ -7,6 +7,9 @@ import {
 
 export async function GET() {
   try {
+    // Initialize KV data if needed (only runs once)
+    await initializeKVData();
+    
     const karbharanaData = await getKVKarbharanaData();
     return NextResponse.json({ karbharana: karbharanaData });
   } catch (error) {
