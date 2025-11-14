@@ -7,7 +7,7 @@ import NagrikAccordion from '@/components/NagrikAccordion';
 
 async function getNagrikData(): Promise<NagrikData> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/nagrik`, {
+    const response = await fetch('/api/nagrik', {
       cache: 'no-store', // Always fetch fresh content
     });
     
@@ -28,7 +28,7 @@ async function getNagrikData(): Promise<NagrikData> {
 
 async function getContentData(): Promise<ContentData> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`, {
+    const response = await fetch('/api/content', {
       cache: 'no-store', // Always fetch fresh content
     });
     

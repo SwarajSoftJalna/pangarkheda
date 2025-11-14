@@ -8,7 +8,7 @@ import PaymentAccordion from '@/components/PaymentAccordion';
 
 async function getKarbharanaData(): Promise<KarbharanaData> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/karbharana`, {
+    const response = await fetch('/api/karbharana', {
       cache: 'no-store', // Always fetch fresh content
     });
     
@@ -30,7 +30,7 @@ async function getKarbharanaData(): Promise<KarbharanaData> {
 
 async function getContentData(): Promise<ContentData> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`, {
+    const response = await fetch('/api/content', {
       cache: 'no-store', // Always fetch fresh content
     });
     

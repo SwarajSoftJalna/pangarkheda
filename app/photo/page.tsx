@@ -8,7 +8,7 @@ import GalleryGrid from '@/components/GalleryGrid';
 
 async function getPhotoGalleryData(): Promise<PhotoGalleryData> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/photo`, {
+    const response = await fetch('/api/photo', {
       cache: 'no-store', // Always fetch fresh content
     });
     
@@ -31,7 +31,7 @@ async function getPhotoGalleryData(): Promise<PhotoGalleryData> {
 
 async function getContentData(): Promise<ContentData> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`, {
+    const response = await fetch('/api/content', {
       cache: 'no-store', // Always fetch fresh content
     });
     

@@ -8,7 +8,7 @@ import PadadhikariTabs from '@/components/PadadhikariTabs';
 
 async function getPadadhikariData(): Promise<PadadhikariData> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/padadhikari`, {
+    const response = await fetch('/api/padadhikari', {
       cache: 'no-store', // Always fetch fresh content
     });
     
@@ -31,7 +31,7 @@ async function getPadadhikariData(): Promise<PadadhikariData> {
 
 async function getContentData(): Promise<ContentData> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/content`, {
+    const response = await fetch('/api/content', {
       cache: 'no-store', // Always fetch fresh content
     });
     
