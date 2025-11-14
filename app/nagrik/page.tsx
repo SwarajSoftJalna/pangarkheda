@@ -7,7 +7,10 @@ import NagrikAccordion from '@/components/NagrikAccordion';
 
 async function getNagrikData(): Promise<NagrikData> {
   try {
-    const response = await fetch('/api/nagrik', {
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://gpm-orcin.vercel.app'
+      : 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/nagrik`, {
       cache: 'no-store', // Always fetch fresh content
     });
     
@@ -28,7 +31,10 @@ async function getNagrikData(): Promise<NagrikData> {
 
 async function getContentData(): Promise<ContentData> {
   try {
-    const response = await fetch('/api/content', {
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://gpm-orcin.vercel.app'
+      : 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/content`, {
       cache: 'no-store', // Always fetch fresh content
     });
     

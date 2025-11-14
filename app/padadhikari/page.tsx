@@ -8,7 +8,10 @@ import PadadhikariTabs from '@/components/PadadhikariTabs';
 
 async function getPadadhikariData(): Promise<PadadhikariData> {
   try {
-    const response = await fetch('/api/padadhikari', {
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://gpm-orcin.vercel.app'
+      : 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/padadhikari`, {
       cache: 'no-store', // Always fetch fresh content
     });
     
@@ -31,7 +34,10 @@ async function getPadadhikariData(): Promise<PadadhikariData> {
 
 async function getContentData(): Promise<ContentData> {
   try {
-    const response = await fetch('/api/content', {
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://gpm-orcin.vercel.app'
+      : 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/content`, {
       cache: 'no-store', // Always fetch fresh content
     });
     
