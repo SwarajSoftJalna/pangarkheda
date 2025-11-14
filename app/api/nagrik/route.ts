@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getNagrikData, updateNagrikData } from '@/lib/storage';
+import { getVercelNagrikData, updateVercelNagrikData } from '@/lib/vercel-storage';
 
 export async function GET() {
   try {
-    const nagrikData = getNagrikData();
+    const nagrikData = getVercelNagrikData();
     return NextResponse.json({ nagrik: nagrikData });
   } catch (error) {
     console.error('Error fetching nagrik data:', error);
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const updatedNagrik = updateNagrikData(nagrik);
+    const updatedNagrik = updateVercelNagrikData(nagrik);
 
     return NextResponse.json({
       message: 'Nagrik updated successfully',
