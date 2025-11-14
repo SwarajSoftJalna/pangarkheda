@@ -119,7 +119,7 @@ The app now works without TinyMCE API key but will show:
 - `app/api/photo/route.ts` - Updated to use Vercel storage
 - `app/api/content/route.ts` - Updated to use Vercel storage
 - `app/api/nagrik/route.ts` - Updated to use Vercel storage
-- `vercel.json` - Vercel configuration
+- `vercel.json` - Fixed runtime configuration for Next.js
 
 ### Storage Strategy
 ```typescript
