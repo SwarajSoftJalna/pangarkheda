@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getFooterData, updateFooterData } from '@/lib/storage';
+import { 
+  getKVFooterData, 
+  updateKVFooterData,
+  initializeKVData 
+} from '@/lib/kv-storage';
 
 export async function GET() {
   try {
-    const footerData = getFooterData();
+    const footerData = await getKVFooterData();
     return NextResponse.json({ footer: footerData });
   } catch (error) {
     console.error('Error fetching footer data:', error);
@@ -65,7 +69,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const updatedFooter = updateFooterData(footer);
+    const updatedFooter = await updateKVFooterData(footer);
 
     return NextResponse.json({
       message: 'Footer updated successfully',

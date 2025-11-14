@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getKarbharanaData, updateKarbharanaData } from '@/lib/storage';
+import { 
+  getKVKarbharanaData, 
+  updateKVKarbharanaData,
+  initializeKVData 
+} from '@/lib/kv-storage';
 
 export async function GET() {
   try {
-    const karbharanaData = getKarbharanaData();
+    const karbharanaData = await getKVKarbharanaData();
     return NextResponse.json({ karbharana: karbharanaData });
   } catch (error) {
     console.error('Error fetching karbharana data:', error);
@@ -97,7 +101,7 @@ export async function POST(request: NextRequest) {
       }));
     }
 
-    const updatedKarbharana = updateKarbharanaData(karbharana);
+    const updatedKarbharana = await updateKVKarbharanaData(karbharana);
 
     return NextResponse.json({
       message: 'Karbharana updated successfully',

@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getPadadhikariData, updatePadadhikariData } from '@/lib/storage';
+import { 
+  getKVPadadhikariData, 
+  updateKVPadadhikariData,
+  initializeKVData 
+} from '@/lib/kv-storage';
 
 export async function GET() {
   try {
-    const padadhikariData = getPadadhikariData();
+    const padadhikariData = await getKVPadadhikariData();
     return NextResponse.json({ padadhikari: padadhikariData });
   } catch (error) {
     console.error('Error fetching padadhikari data:', error);
@@ -65,7 +69,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const updatedPadadhikari = updatePadadhikariData(padadhikari);
+    const updatedPadadhikari = await updateKVPadadhikariData(padadhikari);
 
     return NextResponse.json({
       message: 'Padadhikari updated successfully',

@@ -8,7 +8,8 @@ import {
   FooterData,
   PhotoGalleryData,
   NagrikData,
-  AdminProfile
+  AdminProfile,
+  KarbharanaData
 } from './storage';
 
 // Default data (same as before)
@@ -225,6 +226,65 @@ const defaultAdminProfile: AdminProfile = {
   email: 'sudarshan@gmail.com'
 };
 
+const defaultKarbharanaData: KarbharanaData = {
+  taxReports: [
+    {
+      id: '1',
+      year: '2023-24',
+      title: 'वार्षिक कर वसूली अहवाल 2023-24',
+      table: {
+        columns: ['मागील वर्ष येणे बाकी', 'मागणी', 'वसूली'],
+        subColumns: [['घरपट्टी'], ['पाणीपट्टी']],
+        rows: [
+          {
+            id: 1,
+            घरपट्टी_बाकी: 0,
+            पाणीपट्टी_बाकी: 0,
+            घरपट्टी_मागणी: 0,
+            पाणीपट्टी_मागणी: 0,
+            घरपट्टी_वसूली: 0,
+            पाणीपट्टी_वसूली: 0
+          }
+        ]
+      },
+      updatedAt: '14/11/2025 12:30:00 PM'
+    },
+    {
+      id: '2',
+      year: '2024-25',
+      title: 'वार्षिक कर वसूली अहवाल 2024-25',
+      table: {
+        columns: ['मागील वर्ष येणे बाकी', 'मागणी', 'वसूली'],
+        subColumns: [['घरपट्टी'], ['पाणीपट्टी']],
+        rows: [
+          {
+            id: 1,
+            घरपट्टी_बाकी: 0,
+            पाणीपट्टी_बाकी: 0,
+            घरपट्टी_मागणी: 0,
+            पाणीपट्टी_मागणी: 0,
+            घरपट्टी_वसूली: 0,
+            पाणीपट्टी_वसूली: 0
+          }
+        ]
+      },
+      updatedAt: '14/11/2025 12:30:00 PM'
+    }
+  ],
+  accordions: [
+    {
+      id: '1',
+      title: 'घरपट्टी भरण्यासाठी इथे क्लिक करा',
+      image: ''
+    },
+    {
+      id: '2',
+      title: 'पाणीपट्टी भरण्यासाठी इथे क्लिक करा',
+      image: ''
+    }
+  ]
+};
+
 // KV Storage Keys
 const KV_KEYS = {
   CONTENT: 'cms:content',
@@ -232,7 +292,8 @@ const KV_KEYS = {
   FOOTER: 'cms:footer',
   PHOTO_GALLERY: 'cms:photo-gallery',
   NAGRIK: 'cms:nagrik',
-  ADMIN_PROFILE: 'cms:admin-profile'
+  ADMIN_PROFILE: 'cms:admin-profile',
+  KARBHARANA: 'cms:karbharana'
 } as const;
 
 // Content data functions
@@ -410,6 +471,35 @@ export const updateKVAdminProfile = async (profileData: Partial<AdminProfile>): 
   }
 };
 
+// Karbharana data functions
+export const getKVKarbharanaData = async (): Promise<KarbharanaData> => {
+  try {
+    const cached = await kv.get<KarbharanaData>(KV_KEYS.KARBHARANA);
+    if (cached) {
+      return cached;
+    }
+  } catch (error) {
+    console.error('Error reading karbharana from KV:', error);
+  }
+  
+  return defaultKarbharanaData;
+};
+
+export const updateKVKarbharanaData = async (karbharanaData: Partial<KarbharanaData>): Promise<KarbharanaData> => {
+  try {
+    const currentKarbharana = await getKVKarbharanaData();
+    const updatedKarbharana = { ...currentKarbharana, ...karbharanaData };
+    
+    await kv.set(KV_KEYS.KARBHARANA, updatedKarbharana);
+    console.log('Karbharana updated (KV storage)');
+    
+    return updatedKarbharana;
+  } catch (error) {
+    console.error('Error updating karbharana in KV:', error);
+    throw new Error('Failed to update karbharana');
+  }
+};
+
 // Utility function to initialize all data with defaults
 export const initializeKVData = async (): Promise<void> => {
   try {
@@ -442,6 +532,11 @@ export const initializeKVData = async (): Promise<void> => {
     const adminProfileExists = await kv.exists(KV_KEYS.ADMIN_PROFILE);
     if (!adminProfileExists) {
       await kv.set(KV_KEYS.ADMIN_PROFILE, defaultAdminProfile);
+    }
+
+    const karbharanaExists = await kv.exists(KV_KEYS.KARBHARANA);
+    if (!karbharanaExists) {
+      await kv.set(KV_KEYS.KARBHARANA, defaultKarbharanaData);
     }
 
     console.log('KV data initialized successfully');
