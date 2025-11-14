@@ -7,7 +7,8 @@ import {
   PadadhikariData, 
   FooterData, 
   PhotoGalleryData, 
-  NagrikData
+  NagrikData,
+  AdminProfile
 } from './storage';
 
 // Import the default data directly (they're not exported, so we need to recreate them)
@@ -219,6 +220,11 @@ const defaultNagrikData: NagrikData = {
   ]
 };
 
+const defaultAdminProfile: AdminProfile = {
+  displayName: 'Administrator',
+  email: 'sudarshan@gmail.com'
+};
+
 // In-memory storage (will reset on each function invocation)
 // This allows the API to respond without errors, but won't persist data
 let memoryStorage: {
@@ -227,6 +233,7 @@ let memoryStorage: {
   footer?: FooterData;
   photoGallery?: PhotoGalleryData;
   nagrik?: NagrikData;
+  adminProfile?: AdminProfile;
 } = {};
 
 // Content data functions
@@ -307,4 +314,20 @@ export const updateVercelNagrikData = (nagrikData: Partial<NagrikData>): NagrikD
   memoryStorage.nagrik = updatedNagrik;
   console.log('Nagrik updated (in-memory storage)');
   return updatedNagrik;
+};
+
+// Admin profile functions
+export const getVercelAdminProfile = (): AdminProfile => {
+  if (!memoryStorage.adminProfile) {
+    memoryStorage.adminProfile = defaultAdminProfile;
+  }
+  return memoryStorage.adminProfile!;
+};
+
+export const updateVercelAdminProfile = (profileData: Partial<AdminProfile>): AdminProfile => {
+  const currentProfile = getVercelAdminProfile();
+  const updatedProfile = { ...currentProfile, ...profileData };
+  memoryStorage.adminProfile = updatedProfile;
+  console.log('Admin profile updated (in-memory storage)');
+  return updatedProfile;
 };

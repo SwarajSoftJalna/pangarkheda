@@ -48,24 +48,41 @@ export default function EditorClient({
           plugins: [
             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
             'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-            'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            'insertdatetime', 'media', 'table', 'help', 'wordcount', 'textpattern'
           ],
-          toolbar: 'undo redo | blocks | ' +
-            'bold italic forecolor | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ' +
-            'removeformat | help',
+          toolbar: 'undo redo | formatselect | bold italic underline strikethrough | ' +
+            'forecolor backcolor | alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist outdent indent | link image | table | code | help',
           content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; line-height: 1.6; }',
+          content_css: false,
           placeholder: placeholder,
           branding: false,
           promotion: false,
           resize: false,
           statusbar: false,
-          content_css: false,
-          skin: 'oxide',
-          theme: 'silver',
+          toolbar_mode: 'sliding',
+          toolbar_sticky: true,
+          autosave_ask_before_unload: false,
+          autosave_interval: '30s',
+          autosave_retention: '2m',
+          paste_data_images: true,
+          paste_as_text: false,
+          paste_enable_default_filters: true,
+          text_patterns: [
+            { start: '*', end: '*', format: 'italic' },
+            { start: '**', end: '**', format: 'bold' },
+            { start: '#', format: 'h1' },
+            { start: '##', format: 'h2' },
+            { start: '###', format: 'h3' }
+          ],
           setup: (editor: any) => {
             editor.on('init', () => {
-              // Custom initialization if needed
+              console.log('TinyMCE editor initialized');
+            });
+            
+            // Add custom commands for better text editing
+            editor.addCommand('FormatBlock', function (ui: any, value: any) {
+              editor.execCommand('mceToggleFormat', false, value);
             });
           }
         }}

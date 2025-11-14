@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getContent, updateContent, getAdminProfile, updateAdminProfile, MenuItem } from '@/lib/storage';
-import { getVercelContentData, updateVercelContentData } from '@/lib/vercel-storage';
+import { getVercelContentData, updateVercelContentData, getVercelAdminProfile, updateVercelAdminProfile } from '@/lib/vercel-storage';
 
 export async function GET(request: NextRequest) {
   try {
@@ -8,7 +7,7 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type');
 
     if (type === 'profile') {
-      const profile = getAdminProfile();
+      const profile = getVercelAdminProfile();
       return NextResponse.json(profile);
     }
 
@@ -38,7 +37,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const updatedProfile = updateAdminProfile({ displayName, email });
+      const updatedProfile = updateVercelAdminProfile({ displayName, email });
       return NextResponse.json({
         message: 'Profile updated successfully',
         profile: updatedProfile,
@@ -230,7 +229,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const updatedContent = updateContent({ [field]: content });
+    const updatedContent = updateVercelContentData({ [field]: content });
 
     return NextResponse.json({
       message: `${field} updated successfully`,
