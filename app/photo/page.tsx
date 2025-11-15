@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { PhotoGalleryData, ContentData } from '@/lib/storage';
+import { PhotoGalleryData, ContentData, GalleryImage } from '@/lib/storage';
 import PreHeader from '@/components/PreHeader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -27,8 +27,8 @@ async function getPhotoGalleryData(): Promise<PhotoGalleryData> {
     return {
       heading: 'फोटो गॅलरी',
       subheading: 'आमच्या ग्रामपंचायतीतील विविध कार्यक्रमांचे फोटो',
-      images: []
-    };
+      sections: []
+    } as PhotoGalleryData;
   }
 }
 
@@ -63,6 +63,7 @@ async function getContentData(): Promise<ContentData> {
       homepage: '',
       administrativeStructureHeading: '',
       administrativeStructureImage: '',
+      administrativeStructureMembers: [],
       officeBearers: [],
       ctaSection: {
         heading: '',
@@ -76,7 +77,7 @@ async function getContentData(): Promise<ContentData> {
       },
       govtLogos: [],
       lastUpdated: new Date().toISOString(),
-    };
+    } as ContentData;
   }
 }
 
@@ -130,7 +131,11 @@ export default async function PhotoGalleryPage() {
             />
 
             {/* Gallery Grid */}
-            <GalleryGrid images={photoGalleryData.images} />
+            <GalleryGrid 
+              images={(photoGalleryData.sections || []).reduce<GalleryImage[]>((arr, sec) => {
+                return arr.concat(sec.images || []);
+              }, [])}
+            />
 
           </div>
         </section>

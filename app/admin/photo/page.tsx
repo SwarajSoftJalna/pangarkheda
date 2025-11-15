@@ -8,7 +8,7 @@ export default function PhotoGalleryAdmin() {
   const [photoGalleryData, setPhotoGalleryData] = useState<PhotoGalleryData>({
     heading: '',
     subheading: '',
-    images: []
+    sections: []
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -76,32 +76,58 @@ export default function PhotoGalleryAdmin() {
     return Date.now().toString() + Math.random().toString(36).substr(2, 9);
   };
 
-  // Image Management
-  const addImage = () => {
-    const newImage: GalleryImage = {
-      id: generateId(),
-      src: '',
-      caption: ''
-    };
-
+  // Sections Management
+  const addSection = () => {
     setPhotoGalleryData(prev => ({
       ...prev,
-      images: [...prev.images, newImage]
+      sections: [...(prev.sections || []), { id: generateId(), title: '', images: [] }]
     }));
   };
 
-  const removeImage = (imageId: string) => {
+  const removeSection = (sectionId: string) => {
     setPhotoGalleryData(prev => ({
       ...prev,
-      images: prev.images.filter(image => image.id !== imageId)
+      sections: (prev.sections || []).filter(s => s.id !== sectionId)
     }));
   };
 
-  const updateImage = (imageId: string, field: keyof GalleryImage, value: string) => {
+  const updateSectionTitle = (sectionId: string, title: string) => {
     setPhotoGalleryData(prev => ({
       ...prev,
-      images: prev.images.map(image => 
-        image.id === imageId ? { ...image, [field]: value } : image
+      sections: (prev.sections || []).map(s => s.id === sectionId ? { ...s, title } : s)
+    }));
+  };
+
+  // Images inside a Section
+  const addSectionImage = (sectionId: string) => {
+    const newImage: GalleryImage = { id: generateId(), src: '', caption: '' };
+    setPhotoGalleryData(prev => ({
+      ...prev,
+      sections: (prev.sections || []).map(s => 
+        s.id === sectionId ? { ...s, images: [...s.images, newImage] } : s
+      )
+    }));
+  };
+
+  const removeSectionImage = (sectionId: string, imageId: string) => {
+    setPhotoGalleryData(prev => ({
+      ...prev,
+      sections: (prev.sections || []).map(s => 
+        s.id === sectionId ? { ...s, images: s.images.filter(img => img.id !== imageId) } : s
+      )
+    }));
+  };
+
+  const updateSectionImage = (sectionId: string, imageId: string, field: keyof GalleryImage, value: string) => {
+    setPhotoGalleryData(prev => ({
+      ...prev,
+      sections: (prev.sections || []).map(s => 
+        s.id === sectionId 
+          ? { 
+              ...s, 
+              images: s.images.map(img => img.id === imageId ? { ...img, [field]: value } : img) 
+            }
+          : s
       )
     }));
   };
@@ -202,90 +228,135 @@ export default function PhotoGalleryAdmin() {
         </div>
       </div>
 
-      {/* Gallery Images Section */}
+      {/* Gallery Sections */}
       <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Gallery Images</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Gallery Sections</h2>
               <p className="text-gray-600 text-sm">
-                Upload and manage images for the photo gallery. Images will be displayed in a responsive grid.
+                Create sections like "आरोग्य शिबीर", "ग्रामसभा कार्यक्रम" and add multiple images inside each section.
               </p>
             </div>
             <button
-              onClick={addImage}
+              onClick={addSection}
               className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
             >
-              ➕ Add Image
+              ➕ Add Section
             </button>
           </div>
         </div>
 
-        {photoGalleryData.images.length === 0 ? (
+        {(!photoGalleryData.sections || photoGalleryData.sections.length === 0) ? (
           <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-            <div className="text-gray-400 text-6xl mb-4">🖼️</div>
-            <p className="text-gray-600 mb-4">No images added yet. Click "Add Image" to get started.</p>
+            <div className="text-gray-400 text-6xl mb-4">🗂️</div>
+            <p className="text-gray-600 mb-4">No sections added yet. Click "Add Section" to get started.</p>
             <button
-              onClick={addImage}
+              onClick={addSection}
               className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
             >
-              Add First Image
+              Add First Section
             </button>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {photoGalleryData.images.map((image, index) => (
-              <div key={image.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+          <div className="space-y-8">
+            {photoGalleryData.sections.map((section, sIndex) => (
+              <div key={section.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-md font-medium text-gray-800">
-                    Image {index + 1}
-                  </h4>
+                  <h3 className="text-lg font-medium text-gray-800">Section {sIndex + 1}</h3>
                   <button
-                    onClick={() => removeImage(image.id)}
-                    className="text-red-600 hover:text-red-800 font-medium text-sm"
+                    onClick={() => removeSection(section.id)}
+                    className="text-red-600 hover:text-red-800 font-medium"
                   >
-                    🗑️ Remove
+                    🗑️ Remove Section
                   </button>
                 </div>
 
-                <div className="space-y-4">
-                  {/* Image Upload */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Image File
-                    </label>
-                    <ImageUpload
-                      currentImage={image.src}
-                      onImageChange={(url: string) => updateImage(image.id, 'src', url)}
-                      label="Upload gallery image"
-                      description="Upload image for gallery display"
-                    />
-                    
-                    {image.src && (
-                      <div className="mt-3">
-                        <img
-                          src={image.src}
-                          alt={image.caption}
-                          className="w-full h-32 object-cover rounded-lg border border-gray-200"
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Caption */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Image Caption
-                    </label>
-                    <input
-                      type="text"
-                      value={image.caption}
-                      onChange={(e) => updateImage(image.id, 'caption', e.target.value)}
-                      placeholder="आरोग्य शिबीर"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    />
-                  </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Section Title</label>
+                  <input
+                    type="text"
+                    value={section.title}
+                    onChange={(e) => updateSectionTitle(section.id, e.target.value)}
+                    placeholder="उदा. आरोग्य शिबीर"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  />
                 </div>
+
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-md font-medium text-gray-800">Images</h4>
+                  <button
+                    onClick={() => addSectionImage(section.id)}
+                    className="bg-green-600 hover:bg-green-700 text-white font-medium py-1 px-3 rounded-md transition-colors duration-200"
+                  >
+                    ➕ Add Image
+                  </button>
+                </div>
+
+                {section.images.length === 0 ? (
+                  <div className="text-center py-8 bg-white rounded-lg border-2 border-dashed border-gray-200">
+                    <div className="text-gray-400 text-5xl mb-3">🖼️</div>
+                    <p className="text-gray-600 mb-2">No images in this section yet.</p>
+                    <button
+                      onClick={() => addSectionImage(section.id)}
+                      className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+                    >
+                      Add First Image
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {section.images.map((image, index) => (
+                      <div key={image.id} className="border border-gray-200 rounded-lg p-4 bg-white">
+                        <div className="flex items-center justify-between mb-4">
+                          <h5 className="text-md font-medium text-gray-800">Image {index + 1}</h5>
+                          <button
+                            onClick={() => removeSectionImage(section.id, image.id)}
+                            className="text-red-600 hover:text-red-800 font-medium"
+                          >
+                            🗑️ Remove
+                          </button>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4">
+                          {/* Uploader */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Image Source</label>
+                            <ImageUpload
+                              currentImage={image.src}
+                              onImageChange={(url) => updateSectionImage(section.id, image.id, 'src', url)}
+                              label={`Upload image ${index + 1}`}
+                              description="Upload a photo or paste an image URL"
+                            />
+
+                            {image.src && (
+                              <div className="mt-4">
+                                <p className="text-sm text-gray-600 mb-2">Preview:</p>
+                                <img
+                                  src={image.src}
+                                  alt={image.caption}
+                                  className="w-full h-32 object-cover rounded-lg border border-gray-200"
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Caption */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Image Caption</label>
+                            <input
+                              type="text"
+                              value={image.caption}
+                              onChange={(e) => updateSectionImage(section.id, image.id, 'caption', e.target.value)}
+                              placeholder="उदा. आरोग्य शिबीर"
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>

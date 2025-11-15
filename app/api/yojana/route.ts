@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { 
   getKVYojanaData, 
+  getKVYojanaDataCached,
   updateKVYojanaData,
   initializeKVData 
 } from '@/lib/kv-storage';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     // Initialize KV data if needed (only runs once)
     await initializeKVData();
-    
-    const yojanaData = await getKVYojanaData();
+    const { searchParams } = new URL(request.url);
+    const noCache = searchParams.get('noCache') === '1';
+    const yojanaData = noCache ? await getKVYojanaData() : await getKVYojanaDataCached();
     return NextResponse.json({ yojana: yojanaData });
   } catch (error) {
     console.error('Error fetching yojana data:', error);

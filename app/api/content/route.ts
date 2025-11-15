@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { 
   getKVContentData, 
+  getKVContentDataCached,
   updateKVContentData, 
   getKVAdminProfile, 
   updateKVAdminProfile,
@@ -20,7 +21,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(profile);
     }
 
-    const content = await getKVContentData();
+    const noCache = searchParams.get('noCache') === '1';
+    const content = noCache ? await getKVContentData() : await getKVContentDataCached();
     return NextResponse.json(content);
   } catch (error) {
     console.error('Error fetching content:', error);
@@ -54,7 +56,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Handle content updates
-    const { preheader, header, headerTitle, headerSubtitle, bannerImage, about, yashodatha, homepage, administrativeStructureHeading, administrativeStructureImage, officeBearers, ctaSection, populationStats, govtLogos } = body;
+    const { preheader, header, headerTitle, headerSubtitle, bannerImage, about, yashodatha, homepage, administrativeStructureHeading, administrativeStructureImage, administrativeStructureMembers, officeBearers, ctaSection, populationStats, govtLogos } = body;
     
     // Validate preheader and homepage
     if (preheader !== undefined && typeof preheader !== 'string') {
@@ -141,6 +143,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate administrativeStructureMembers field
+    if (administrativeStructureMembers !== undefined && !Array.isArray(administrativeStructureMembers)) {
+      return NextResponse.json(
+        { error: 'Invalid administrativeStructureMembers format. Must be an array.' },
+        { status: 400 }
+      );
+    }
+
     // Validate ctaSection field
     if (ctaSection !== undefined && (typeof ctaSection !== 'object' || ctaSection === null)) {
       return NextResponse.json(
@@ -178,6 +188,7 @@ export async function POST(request: NextRequest) {
     if (administrativeStructureHeading !== undefined) updateData.administrativeStructureHeading = administrativeStructureHeading;
     if (administrativeStructureImage !== undefined) updateData.administrativeStructureImage = administrativeStructureImage;
     if (officeBearers !== undefined) updateData.officeBearers = officeBearers;
+    if (administrativeStructureMembers !== undefined) updateData.administrativeStructureMembers = administrativeStructureMembers;
     if (ctaSection !== undefined) updateData.ctaSection = ctaSection;
     if (populationStats !== undefined) updateData.populationStats = populationStats;
     if (govtLogos !== undefined) updateData.govtLogos = govtLogos;

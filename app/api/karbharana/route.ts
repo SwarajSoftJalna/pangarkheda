@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { 
   getKVKarbharanaData, 
+  getKVKarbharanaDataCached,
   updateKVKarbharanaData,
   initializeKVData 
 } from '@/lib/kv-storage';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     // Initialize KV data if needed (only runs once)
     await initializeKVData();
-    
-    const karbharanaData = await getKVKarbharanaData();
+    const { searchParams } = new URL(request.url);
+    const noCache = searchParams.get('noCache') === '1';
+    const karbharanaData = noCache ? await getKVKarbharanaData() : await getKVKarbharanaDataCached();
     return NextResponse.json({ karbharana: karbharanaData });
   } catch (error) {
     console.error('Error fetching karbharana data:', error);

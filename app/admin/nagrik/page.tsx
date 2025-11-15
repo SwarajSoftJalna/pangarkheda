@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { NagrikData, NagrikAccordion, NagrikItem } from '@/lib/storage';
 import ImageUpload from '@/components/ImageUpload';
+import PDFUpload from '@/components/PDFUpload';
 
 export default function NagrikAdmin() {
   const [nagrikData, setNagrikData] = useState<NagrikData>({
@@ -274,9 +275,9 @@ export default function NagrikAdmin() {
                               <label className="block text-sm font-medium text-gray-700 mb-2">
                                 PDF File Upload
                               </label>
-                              <ImageUpload
-                                currentImage={item.url}
-                                onImageChange={(url: string) => updateItem(accordion.id, item.id, 'url', url)}
+                              <PDFUpload
+                                currentPDF={item.url}
+                                onPDFChange={(url: string) => updateItem(accordion.id, item.id, 'url', url)}
                                 label="Upload PDF file"
                                 description="Upload PDF document for download"
                               />
