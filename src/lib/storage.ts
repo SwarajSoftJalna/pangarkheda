@@ -7,6 +7,20 @@ export interface MenuItem {
   url?: string;
   isExternal?: boolean;
   subItems?: MenuItem[];
+  action?: 'takrarModal';
+}
+
+export interface ComplaintItem {
+  id: string;
+  name: string;
+  mobile: string;
+  type: string;
+  details: string;
+  createdAt: string; // ISO timestamp
+}
+
+export interface ComplaintsData {
+  items: ComplaintItem[];
 }
 
 export interface OfficeBearerMember {
@@ -249,7 +263,7 @@ const defaultContentStore: ContentData = {
     {
       id: '8',
       title: 'तक्रार',
-      url: '/takrar'
+      action: 'takrarModal'
     }
   ],
   homepage: `
