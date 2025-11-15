@@ -140,6 +140,11 @@ export interface YojanaSection {
 export interface YojanaData {
   pradhanMantriAawas: YojanaSection;
   financeCommission: YojanaSection;
+  mgnrega: YojanaSection;
+  scheduledCastesNeoBuddhist: YojanaSection;
+  ramaiAwas: YojanaSection;
+  shabariAdivasiGharkul: YojanaSection;
+  modiAwas: YojanaSection;
 }
 
 export interface ContentData {

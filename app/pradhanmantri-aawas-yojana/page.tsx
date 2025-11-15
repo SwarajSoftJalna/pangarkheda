@@ -34,6 +34,36 @@ async function getYojanaData(): Promise<YojanaData> {
         heading: '१५ वित्त आयोग',
         pdfUrl: '',
         content: '<p>सद्या उपलब्ध नाही.</p>'
+      },
+      mgnrega: {
+        id: '3',
+        heading: 'महात्मा गांधी राष्ट्रीय ग्रामीण रोजगार हमी योजना',
+        pdfUrl: '',
+        content: '<p>सद्या उपलब्ध नाही.</p>'
+      },
+      scheduledCastesNeoBuddhist: {
+        id: '4',
+        heading: 'अनुसूचीत जाती व नवबौध्द विकास',
+        pdfUrl: '',
+        content: '<p>सद्या उपलब्ध नाही.</p>'
+      },
+      ramaiAwas: {
+        id: '5',
+        heading: 'रमाई आवास योजना',
+        pdfUrl: '',
+        content: '<p>सद्या उपलब्ध नाही.</p>'
+      },
+      shabariAdivasiGharkul: {
+        id: '6',
+        heading: 'शबरी आदिवासी घरकुल योजना',
+        pdfUrl: '',
+        content: '<p>सद्या उपलब्ध नाही.</p>'
+      },
+      modiAwas: {
+        id: '7',
+        heading: 'मोदी आवास योजना',
+        pdfUrl: '',
+        content: '<p>सद्या उपलब्ध नाही.</p>'
       }
     };
   }

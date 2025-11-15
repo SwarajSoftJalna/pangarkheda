@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PreHeader from '@/components/PreHeader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { ContentData, MenuItem } from '@/lib/storage';
+import { ContentData } from '@/lib/storage';
 
 interface YojanaSection {
   id: string;
@@ -13,51 +13,42 @@ interface YojanaSection {
   content: string;
 }
 
-interface YojanaData {
-  financeCommission: YojanaSection;
-}
-
-export default function FinanceCommissionPage() {
-  const [financeData, setFinanceData] = useState<YojanaSection | null>(null);
+export default function RuralEmploymentGuaranteeSchemePage() {
+  const [mgnrega, setMgnrega] = useState<YojanaSection | null>(null);
   const [contentData, setContentData] = useState<ContentData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch yojana data (MGNREGA)
+        const yojanaRes = await fetch('/api/yojana');
+        if (!yojanaRes.ok) throw new Error('Failed to fetch yojana data');
+        const yojanaJson = await yojanaRes.json();
+        setMgnrega(yojanaJson.yojana.mgnrega);
+
+        // Fetch content data for header/footer
+        const contentRes = await fetch('/api/content');
+        if (!contentRes.ok) throw new Error('Failed to fetch content data');
+        const contentJson: ContentData = await contentRes.json();
+        setContentData(contentJson);
+      } catch (e) {
+        console.error('Error fetching data:', e);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchData();
   }, []);
-
-  const fetchData = async () => {
-    try {
-      // Fetch finance commission data
-      const yojanaResponse = await fetch('/api/yojana');
-      if (!yojanaResponse.ok) {
-        throw new Error('Failed to fetch finance commission data');
-      }
-      const yojanaData = await yojanaResponse.json();
-      setFinanceData(yojanaData.yojana.financeCommission);
-
-      // Fetch content data for header
-      const contentResponse = await fetch('/api/content');
-      if (!contentResponse.ok) {
-        throw new Error('Failed to fetch content data');
-      }
-      const content = await contentResponse.json();
-      setContentData(content);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <PreHeader content={contentData?.preheader || ''} />
         <Header 
-          menuItems={contentData?.header || []} 
-          headerTitle={contentData?.headerTitle || ''} 
-          headerSubtitle={contentData?.headerSubtitle || ''} 
+          menuItems={contentData?.header || []}
+          headerTitle={contentData?.headerTitle || ''}
+          headerSubtitle={contentData?.headerSubtitle || ''}
         />
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
@@ -70,19 +61,19 @@ export default function FinanceCommissionPage() {
     );
   }
 
-  if (!financeData) {
+  if (!mgnrega) {
     return (
       <div className="min-h-screen bg-gray-50">
         <PreHeader content={contentData?.preheader || ''} />
         <Header 
-          menuItems={contentData?.header || []} 
-          headerTitle={contentData?.headerTitle || ''} 
-          headerSubtitle={contentData?.headerSubtitle || ''} 
+          menuItems={contentData?.header || []}
+          headerTitle={contentData?.headerTitle || ''}
+          headerSubtitle={contentData?.headerSubtitle || ''}
         />
         <div className="container mx-auto px-4 py-32">
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-900 mb-4">डेटा उपलब्ध नाही</h1>
-            <p className="text-gray-600">१५ वित्त आयोगाबद्दल माहिती उपलब्ध नाही.</p>
+            <p className="text-gray-600">महात्मा गांधी राष्ट्रीय ग्रामीण रोजगार हमी योजनेबद्दल माहिती उपलब्ध नाही.</p>
           </div>
         </div>
         <Footer />
@@ -94,17 +85,17 @@ export default function FinanceCommissionPage() {
     <div className="min-h-screen bg-gray-50">
       <PreHeader content={contentData?.preheader || ''} />
       <Header 
-        menuItems={contentData?.header || []} 
-        headerTitle={contentData?.headerTitle || ''} 
-        headerSubtitle={contentData?.headerSubtitle || ''} 
+        menuItems={contentData?.header || []}
+        headerTitle={contentData?.headerTitle || ''}
+        headerSubtitle={contentData?.headerSubtitle || ''}
       />
-      
+
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Page Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              {financeData.heading}
+              {mgnrega.heading}
             </h1>
             <div className="w-24 h-1 bg-green-600 mx-auto mb-6"></div>
           </div>
@@ -114,17 +105,17 @@ export default function FinanceCommissionPage() {
             {/* Main Content */}
             <div 
               className="prose prose-lg max-w-none text-gray-800"
-              dangerouslySetInnerHTML={{ __html: financeData.content }}
+              dangerouslySetInnerHTML={{ __html: mgnrega.content }}
             />
 
             {/* PDF Download Section */}
-            {financeData.pdfUrl && (
+            {mgnrega.pdfUrl && (
               <div className="mt-8 p-6 bg-green-50 border border-green-200 rounded-lg">
                 <h3 className="text-lg font-semibold text-green-900 mb-4">
                   📄 अधिकृत दस्तऐवज
                 </h3>
                 <a
-                  href={financeData.pdfUrl}
+                  href={mgnrega.pdfUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
@@ -144,10 +135,9 @@ export default function FinanceCommissionPage() {
               ℹ️ महत्त्वाची माहिती
             </h3>
             <ul className="space-y-2 text-sm text-blue-800">
-              <li>• १५ वित्त आयोगाच्या शिफारशीनुसार ग्रामपंचायतींना वित्तीय साहाय्य मिळते.</li>
-              <li>• वित्तीय वर्ष २०२०-२१ ते २०२५-२६ या कालावधीसाठी अनुदान उपलब्ध आहे.</li>
-              <li>• स्थानिक स्वराज्य संस्थांच्या विकासासाठी हे अनुदान महत्त्वाचे आहे.</li>
-              <li>• अधिक माहितीसाठी ग्रामपंचायत कार्यालयाशे संपर्क साधा.</li>
+              <li>• ग्रामीण भागातील कामाच्या संधी निर्माण करण्यासाठी ही योजना आहे.</li>
+              <li>• पात्र ग्रामस्थांना हमीने रोजगार उपलब्ध होतो.</li>
+              <li>• अधिक माहितीसाठी ग्रामपंचायत कार्यालयाशी संपर्क साधा.</li>
             </ul>
           </div>
         </div>
