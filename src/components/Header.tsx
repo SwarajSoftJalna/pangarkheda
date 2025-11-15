@@ -84,26 +84,52 @@ export default function Header({ menuItems, headerTitle, headerSubtitle }: Heade
                           <div className="absolute right-0 mt-1 w-80 bg-white rounded-md shadow-lg border border-gray-200 z-50">
                             <div className="py-2">
                               {item.subItems.map((subItem) => (
-                                <Link
-                                  key={subItem.id}
-                                  href={subItem.url || '#'}
-                                  onClick={closeDropdown}
-                                  className="block px-4 py-2 text-sm text-gray-700 hover:text-green-700 hover:bg-green-50 transition-colors duration-200"
-                                >
-                                  {subItem.title}
-                                </Link>
+                                subItem.isExternal ? (
+                                  <a
+                                    key={subItem.id}
+                                    href={subItem.url || '#'}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={closeDropdown}
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:text-green-700 hover:bg-green-50 transition-colors duration-200"
+                                  >
+                                    {subItem.title}
+                                    <span className="ml-1 text-xs">🔗</span>
+                                  </a>
+                                ) : (
+                                  <Link
+                                    key={subItem.id}
+                                    href={subItem.url || '#'}
+                                    onClick={closeDropdown}
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:text-green-700 hover:bg-green-50 transition-colors duration-200"
+                                  >
+                                    {subItem.title}
+                                  </Link>
+                                )
                               ))}
                             </div>
                           </div>
                         )}
                       </div>
                     ) : (
-                      <Link
-                        href={item.url || '#'}
-                        className="block px-4 py-2 text-gray-700 hover:text-green-700 hover:bg-green-50 rounded-md font-medium transition-colors duration-200"
-                      >
-                        {item.title}
-                      </Link>
+                      item.isExternal ? (
+                        <a
+                          href={item.url || '#'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block px-4 py-2 text-gray-700 hover:text-green-700 hover:bg-green-50 rounded-md font-medium transition-colors duration-200"
+                        >
+                          {item.title}
+                          <span className="ml-1 text-xs">🔗</span>
+                        </a>
+                      ) : (
+                        <Link
+                          href={item.url || '#'}
+                          className="block px-4 py-2 text-gray-700 hover:text-green-700 hover:bg-green-50 rounded-md font-medium transition-colors duration-200"
+                        >
+                          {item.title}
+                        </Link>
+                      )
                     )}
                   </li>
                 ))}
@@ -155,29 +181,59 @@ export default function Header({ menuItems, headerTitle, headerSubtitle }: Heade
                       {openDropdown === item.id && (
                         <div className="mt-1 ml-4 space-y-1">
                           {item.subItems.map((subItem) => (
-                            <Link
-                              key={subItem.id}
-                              href={subItem.url || '#'}
-                              onClick={() => {
-                                closeDropdown();
-                                setIsMobileMenuOpen(false);
-                              }}
-                              className="block px-4 py-2 text-sm text-gray-600 hover:text-green-700 hover:bg-green-50 rounded-md transition-colors duration-200"
-                            >
-                              {subItem.title}
-                            </Link>
+                            subItem.isExternal ? (
+                              <a
+                                key={subItem.id}
+                                href={subItem.url || '#'}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => {
+                                  closeDropdown();
+                                  setIsMobileMenuOpen(false);
+                                }}
+                                className="block px-4 py-2 text-sm text-gray-600 hover:text-green-700 hover:bg-green-50 rounded-md transition-colors duration-200"
+                              >
+                                {subItem.title}
+                                <span className="ml-1 text-xs">🔗</span>
+                              </a>
+                            ) : (
+                              <Link
+                                key={subItem.id}
+                                href={subItem.url || '#'}
+                                onClick={() => {
+                                  closeDropdown();
+                                  setIsMobileMenuOpen(false);
+                                }}
+                                className="block px-4 py-2 text-sm text-gray-600 hover:text-green-700 hover:bg-green-50 rounded-md transition-colors duration-200"
+                              >
+                                {subItem.title}
+                              </Link>
+                            )
                           ))}
                         </div>
                       )}
                     </div>
                   ) : (
-                    <Link
-                      href={item.url || '#'}
-                      className="block px-4 py-2 text-gray-700 hover:text-green-700 hover:bg-green-50 rounded-md font-medium transition-colors duration-200"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {item.title}
-                    </Link>
+                    item.isExternal ? (
+                      <a
+                        href={item.url || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block px-4 py-2 text-gray-700 hover:text-green-700 hover:bg-green-50 rounded-md font-medium transition-colors duration-200"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.title}
+                        <span className="ml-1 text-xs">🔗</span>
+                      </a>
+                    ) : (
+                      <Link
+                        href={item.url || '#'}
+                        className="block px-4 py-2 text-gray-700 hover:text-green-700 hover:bg-green-50 rounded-md font-medium transition-colors duration-200"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.title}
+                      </Link>
+                    )
                   )}
                 </li>
               ))}

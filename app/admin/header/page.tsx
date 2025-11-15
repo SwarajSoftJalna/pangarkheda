@@ -271,7 +271,12 @@ function MenuItemCard({
               <div>
                 <span className="text-sm font-medium text-gray-700">{subItem.title}</span>
                 {subItem.url && (
-                  <span className="text-xs text-gray-500 ml-2">{subItem.url}</span>
+                  <span className="text-xs text-gray-500 ml-2">
+                    {subItem.url}
+                    {subItem.isExternal && (
+                      <span className="ml-1 text-blue-600 font-medium">🔗 बाह्य</span>
+                    )}
+                  </span>
                 )}
               </div>
               <button
@@ -316,6 +321,7 @@ function MenuItemForm({
   const [formData, setFormData] = useState({
     title: item?.title || '',
     url: item?.url || '',
+    isExternal: item?.isExternal || false,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -359,6 +365,19 @@ function MenuItemForm({
             />
           </div>
           
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="isExternalMain"
+              checked={formData.isExternal}
+              onChange={(e) => setFormData({ ...formData, isExternal: e.target.checked })}
+              className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+            />
+            <label htmlFor="isExternalMain" className="ml-2 text-sm text-gray-700">
+              बाह्य लिंक (नवीन टॅबमध्ये उघडा)
+            </label>
+          </div>
+          
           <div className="flex justify-end space-x-3 pt-4">
             <button
               type="button"
@@ -391,6 +410,7 @@ function SubItemForm({
   const [formData, setFormData] = useState({
     title: '',
     url: '',
+    isExternal: false,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -419,6 +439,19 @@ function SubItemForm({
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
           placeholder="URL (optional)"
         />
+      </div>
+      
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          id="isExternal"
+          checked={formData.isExternal}
+          onChange={(e) => setFormData({ ...formData, isExternal: e.target.checked })}
+          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+        />
+        <label htmlFor="isExternal" className="ml-2 text-sm text-gray-700">
+          बाह्य लिंक (नवीन टॅबमध्ये उघडा)
+        </label>
       </div>
       
       <div className="flex justify-end space-x-2">

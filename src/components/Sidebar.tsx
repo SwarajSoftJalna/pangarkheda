@@ -53,6 +53,12 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
       href: '/admin/nagrik'
     },
     {
+      id: 'yojana',
+      title: 'योजना',
+      icon: '🏛️',
+      href: '/admin/yojana'
+    },
+    {
       id: 'photo',
       title: 'फोटो गॅलरी',
       icon: '📸',

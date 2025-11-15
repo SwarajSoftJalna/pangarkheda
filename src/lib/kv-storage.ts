@@ -9,7 +9,8 @@ import {
   PhotoGalleryData,
   NagrikData,
   AdminProfile,
-  KarbharanaData
+  KarbharanaData,
+  YojanaData
 } from './storage';
 
 // Default data (same as before)
@@ -22,11 +23,12 @@ const defaultContentStore: ContentData = {
     { id: '4', title: 'नागरिकांसाठी', url: '/nagrik' },
     { id: '5', title: 'फोटो गॅलरी', url: '/photo' },
     { id: '6', title: 'योजना', url: '#', subItems: [
-      { id: '6-1', title: 'यशोदाथा योजना', url: '#' },
-      { id: '6-2', title: 'महात्मा गांधी तंटाश्री ग्रामीण अभियान', url: '#' },
-      { id: '6-3', title: 'राष्ट्रीय ग्रामीण पेयजल योजना', url: '#' },
-      { id: '6-4', title: 'प्रधानमंत्री आवास योजना', url: '#' },
-      { id: '6-5', title: 'सौर ऊर्जा योजना', url: '#' }
+      { id: '6-1', title: 'प्रधानमंत्री आवास योजना', url: '/pradhanmantri-aawas-yojana' },
+      { id: '6-2', title: '१५ वित्त आयोग', url: '/finance-commission' },
+      { id: '6-3', title: 'यशोदाथा योजना', url: '#' },
+      { id: '6-4', title: 'महात्मा गांधी तंटाश्री ग्रामीण अभियान', url: '#' },
+      { id: '6-5', title: 'जल जीवन मिशन', url: '#' },
+      { id: '6-6', title: 'स्वच्छ भारत अभियान', url: '#' }
     ]}
   ],
   headerTitle: 'ग्रामपंचायत सावरगाव हडप',
@@ -221,6 +223,21 @@ const defaultNagrikData: NagrikData = {
   ]
 };
 
+const defaultYojanaData: YojanaData = {
+  pradhanMantriAawas: {
+    id: '1',
+    heading: 'प्रधानमंत्री आवास योजना',
+    pdfUrl: '',
+    content: '<p>प्रधानमंत्री आवास योजना ही भारत सरकारची एक महत्त्वाची योजना आहे. या योजनेअंतर्गत गरीब कुटुंबांना स्वस्त दरात घरे बांधण्यासाठी मदत मिळते.</p>'
+  },
+  financeCommission: {
+    id: '2',
+    heading: '१५ वित्त आयोग',
+    pdfUrl: '',
+    content: '<p>१५ वित्त आयोगाच्या शिफारशीनुसार ग्रामपंचायतींना मिळणारे अनुदान आणि वित्तीय साहाय्याबद्दल माहिती.</p>'
+  }
+};
+
 const defaultAdminProfile: AdminProfile = {
   displayName: 'Administrator',
   email: 'sudarshan@gmail.com'
@@ -293,7 +310,8 @@ const KV_KEYS = {
   PHOTO_GALLERY: 'cms:photo-gallery',
   NAGRIK: 'cms:nagrik',
   ADMIN_PROFILE: 'cms:admin-profile',
-  KARBHARANA: 'cms:karbharana'
+  KARBHARANA: 'cms:karbharana',
+  YOJANA: 'cms:yojana'
 } as const;
 
 // Content data functions
@@ -500,6 +518,35 @@ export const updateKVKarbharanaData = async (karbharanaData: Partial<KarbharanaD
   }
 };
 
+// Yojana data functions
+export const getKVYojanaData = async (): Promise<YojanaData> => {
+  try {
+    const cached = await kv.get<YojanaData>(KV_KEYS.YOJANA);
+    if (cached) {
+      return cached;
+    }
+  } catch (error) {
+    console.error('Error reading yojana from KV:', error);
+  }
+  
+  return defaultYojanaData;
+};
+
+export const updateKVYojanaData = async (yojanaData: Partial<YojanaData>): Promise<YojanaData> => {
+  try {
+    const currentYojana = await getKVYojanaData();
+    const updatedYojana = { ...currentYojana, ...yojanaData };
+    
+    await kv.set(KV_KEYS.YOJANA, updatedYojana);
+    console.log('Yojana updated (KV storage)');
+    
+    return updatedYojana;
+  } catch (error) {
+    console.error('Error updating yojana in KV:', error);
+    throw new Error('Failed to update yojana');
+  }
+};
+
 // Utility function to initialize all data with defaults
 export const initializeKVData = async (): Promise<void> => {
   try {
@@ -537,6 +584,11 @@ export const initializeKVData = async (): Promise<void> => {
     const karbharanaExists = await kv.exists(KV_KEYS.KARBHARANA);
     if (!karbharanaExists) {
       await kv.set(KV_KEYS.KARBHARANA, defaultKarbharanaData);
+    }
+
+    const yojanaExists = await kv.exists(KV_KEYS.YOJANA);
+    if (!yojanaExists) {
+      await kv.set(KV_KEYS.YOJANA, defaultYojanaData);
     }
 
     console.log('KV data initialized successfully');

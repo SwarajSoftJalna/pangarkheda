@@ -5,6 +5,7 @@ export interface MenuItem {
   id: string;
   title: string;
   url?: string;
+  isExternal?: boolean;
   subItems?: MenuItem[];
 }
 
@@ -127,6 +128,18 @@ export interface PhotoGalleryData {
   heading: string;
   subheading: string;
   images: GalleryImage[];
+}
+
+export interface YojanaSection {
+  id: string;
+  heading: string;
+  pdfUrl: string;
+  content: string;
+}
+
+export interface YojanaData {
+  pradhanMantriAawas: YojanaSection;
+  financeCommission: YojanaSection;
 }
 
 export interface ContentData {
