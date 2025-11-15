@@ -63,6 +63,7 @@ async function getContentData(): Promise<ContentData> {
       homepage: '',
       administrativeStructureHeading: '',
       administrativeStructureImage: '',
+      administrativeStructureMembers: [],
       officeBearers: [],
       ctaSection: {
         heading: '',

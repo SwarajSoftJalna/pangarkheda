@@ -334,7 +334,7 @@ const defaultYojanaData: YojanaData = {
 
 const defaultAdminProfile: AdminProfile = {
   displayName: 'Administrator',
-  email: 'sudarshan@gmail.com'
+  email: 'gp.sawargaon@gmail.com'
 };
 
 const defaultKarbharanaData: KarbharanaData = {

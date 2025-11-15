@@ -77,7 +77,7 @@ Visit [http://localhost:3000](http://localhost:3000)
 ### 4. Access Admin Panel
 
 Visit [http://localhost:3000/admin](http://localhost:3000/admin)
-- Email: `sudarshan@gmail.com`
+- Email: `gp.sawargaon@gmail.com`
 - Password: `12345`
 
 ## 🚀 Deployment with Vercel KV
