@@ -42,6 +42,7 @@ const defaultContentStore: ContentData = {
   homepage: '<div><h1>ग्रामपंचायत सावरगाव हडप, जालना</h1><p>आपल्या गावाची प्रगती, आपली जबाबदारी</p></div>',
   administrativeStructureHeading: 'प्रशासकीय संरचना',
   administrativeStructureImage: '',
+  administrativeStructureMembers: [],
   officeBearers: [],
   ctaSection: {
     heading: 'भारतातील पंचायती राज हे ग्रामीण स्थानिक स्वराज्य प्रणालीचे प्रतीक आहे.',
@@ -60,6 +61,87 @@ const defaultContentStore: ContentData = {
   },
   govtLogos: [],
   lastUpdated: new Date().toISOString()
+};
+
+// Cached getters for other resources
+export const getKVPadadhikariDataCached = async (): Promise<PadadhikariData> => {
+  try {
+    const hot = await kv.get<PadadhikariData>(CACHE_KEYS.PADADHIKARI);
+    if (hot) return hot;
+  } catch {}
+  const data = await getKVPadadhikariData();
+  try { await kv.set(CACHE_KEYS.PADADHIKARI, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  return data;
+};
+
+export const getKVFooterDataCached = async (): Promise<FooterData> => {
+  try {
+    const hot = await kv.get<FooterData>(CACHE_KEYS.FOOTER);
+    if (hot) return hot;
+  } catch {}
+  const data = await getKVFooterData();
+  try { await kv.set(CACHE_KEYS.FOOTER, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  return data;
+};
+
+export const getKVPhotoGalleryDataCached = async (): Promise<PhotoGalleryData> => {
+  try {
+    const hot = await kv.get<PhotoGalleryData>(CACHE_KEYS.PHOTO_GALLERY);
+    if (hot) return hot;
+  } catch {}
+  const data = await getKVPhotoGalleryData();
+  try { await kv.set(CACHE_KEYS.PHOTO_GALLERY, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  return data;
+};
+
+export const getKVNagrikDataCached = async (): Promise<NagrikData> => {
+  try {
+    const hot = await kv.get<NagrikData>(CACHE_KEYS.NAGRIK);
+    if (hot) return hot;
+  } catch {}
+  const data = await getKVNagrikData();
+  try { await kv.set(CACHE_KEYS.NAGRIK, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  return data;
+};
+
+export const getKVAdminProfileCached = async (): Promise<AdminProfile> => {
+  try {
+    const hot = await kv.get<AdminProfile>(CACHE_KEYS.ADMIN_PROFILE);
+    if (hot) return hot;
+  } catch {}
+  const data = await getKVAdminProfile();
+  try { await kv.set(CACHE_KEYS.ADMIN_PROFILE, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  return data;
+};
+
+export const getKVKarbharanaDataCached = async (): Promise<KarbharanaData> => {
+  try {
+    const hot = await kv.get<KarbharanaData>(CACHE_KEYS.KARBHARANA);
+    if (hot) return hot;
+  } catch {}
+  const data = await getKVKarbharanaData();
+  try { await kv.set(CACHE_KEYS.KARBHARANA, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  return data;
+};
+
+export const getKVYojanaDataCached = async (): Promise<YojanaData> => {
+  try {
+    const hot = await kv.get<YojanaData>(CACHE_KEYS.YOJANA);
+    if (hot) return hot;
+  } catch {}
+  const data = await getKVYojanaData();
+  try { await kv.set(CACHE_KEYS.YOJANA, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  return data;
+};
+
+export const getKVComplaintsCached = async (): Promise<ComplaintsData> => {
+  try {
+    const hot = await kv.get<ComplaintsData>(CACHE_KEYS.COMPLAINTS);
+    if (hot) return hot;
+  } catch {}
+  const data = await getKVComplaints();
+  try { await kv.set(CACHE_KEYS.COMPLAINTS, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  return data;
 };
 
 const defaultComplaints: ComplaintsData = {
@@ -131,37 +213,12 @@ const defaultPadadhikariData: PadadhikariData = {
 const defaultPhotoGalleryData: PhotoGalleryData = {
   heading: 'आम्ही आरोग्य करीता कटिबद्ध आहोत',
   subheading: 'आमच्या ग्रामपंचायतीत सांस्कृतिक, क्रीडा आणि सामाजिक कार्यक्रमांचे आयोजन केले जाते.',
-  images: [
-    {
-      id: '1',
-      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
-      caption: 'आरोग्य शिबीर'
-    },
-    {
-      id: '2',
-      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
-      caption: 'शाळा सभागृह कार्यक्रम'
-    },
-    {
-      id: '3',
-      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
-      caption: 'महिला गट उपक्रम'
-    },
-    {
-      id: '4',
-      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
-      caption: 'ग्रामसभा कार्यक्रम'
-    },
-    {
-      id: '5',
-      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
-      caption: 'आरोग्य जनजागृती शिबीर'
-    },
-    {
-      id: '6',
-      src: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A',
-      caption: 'सामाजिक अभियान'
-    }
+  sections: [
+    { id: 'sec-1', title: 'आरोग्य शिबीर', images: [] },
+    { id: 'sec-2', title: 'ग्रामसभा कार्यक्रम', images: [] },
+    { id: 'sec-3', title: 'महिला गट उपक्रम', images: [] },
+    { id: 'sec-4', title: 'आरोग्य जनजागृती शिबीर', images: [] },
+    { id: 'sec-5', title: 'सामाजिक अभियान', images: [] }
   ]
 };
 
@@ -277,7 +334,7 @@ const defaultYojanaData: YojanaData = {
 
 const defaultAdminProfile: AdminProfile = {
   displayName: 'Administrator',
-  email: 'sudarshan@gmail.com'
+  email: 'gp.sawargaon@gmail.com'
 };
 
 const defaultKarbharanaData: KarbharanaData = {
@@ -352,6 +409,22 @@ const KV_KEYS = {
   COMPLAINTS: 'cms:complaints'
 } as const;
 
+// Cache keys (Redis via Vercel KV) - POC
+const CACHE_KEYS = {
+  CONTENT: 'cache:content',
+  PADADHIKARI: 'cache:padadhikari',
+  FOOTER: 'cache:footer',
+  PHOTO_GALLERY: 'cache:photo-gallery',
+  NAGRIK: 'cache:nagrik',
+  ADMIN_PROFILE: 'cache:admin-profile',
+  KARBHARANA: 'cache:karbharana',
+  YOJANA: 'cache:yojana',
+  COMPLAINTS: 'cache:complaints',
+} as const;
+
+// POC TTL: 5 minutes
+const CACHE_TTL_SECONDS = 60 * 5;
+
 // Content data functions
 export const getKVContentData = async (): Promise<ContentData> => {
   try {
@@ -367,6 +440,23 @@ export const getKVContentData = async (): Promise<ContentData> => {
   return defaultContentStore;
 };
 
+// GET with cache (POC): serves from Redis cache layer if present
+export const getKVContentDataCached = async (): Promise<ContentData> => {
+  try {
+    const hot = await kv.get<ContentData>(CACHE_KEYS.CONTENT);
+    if (hot) return hot;
+  } catch (e) {
+    console.warn('Cache read failed (content):', e);
+  }
+  const data = await getKVContentData();
+  try {
+    await kv.set(CACHE_KEYS.CONTENT, data, { ex: CACHE_TTL_SECONDS });
+  } catch (e) {
+    console.warn('Cache write failed (content):', e);
+  }
+  return data;
+};
+
 export const updateKVContentData = async (contentData: Partial<ContentData>): Promise<ContentData> => {
   try {
     const currentContent = await getKVContentData();
@@ -374,6 +464,8 @@ export const updateKVContentData = async (contentData: Partial<ContentData>): Pr
     
     await kv.set(KV_KEYS.CONTENT, updatedContent);
     console.log('Content updated (KV storage):', Object.keys(contentData));
+    // Invalidate cache (POC)
+    try { await kv.del(CACHE_KEYS.CONTENT); } catch {}
     
     return updatedContent;
   } catch (error) {
@@ -403,6 +495,7 @@ export const updateKVPadadhikariData = async (padadhikariData: Partial<Padadhika
     
     await kv.set(KV_KEYS.PADADHIKARI, updatedPadadhikari);
     console.log('Padadhikari updated (KV storage)');
+    try { await kv.del(CACHE_KEYS.PADADHIKARI); } catch {}
     
     return updatedPadadhikari;
   } catch (error) {
@@ -432,6 +525,7 @@ export const updateKVFooterData = async (footerData: Partial<FooterData>): Promi
     
     await kv.set(KV_KEYS.FOOTER, updatedFooter);
     console.log('Footer updated (KV storage)');
+    try { await kv.del(CACHE_KEYS.FOOTER); } catch {}
     
     return updatedFooter;
   } catch (error) {
@@ -461,6 +555,7 @@ export const updateKVPhotoGalleryData = async (photoGalleryData: Partial<PhotoGa
     
     await kv.set(KV_KEYS.PHOTO_GALLERY, updatedPhotoGallery);
     console.log('Photo gallery updated (KV storage):', photoGalleryData.heading ? `Updated heading: ${photoGalleryData.heading}` : 'Updated images');
+    try { await kv.del(CACHE_KEYS.PHOTO_GALLERY); } catch {}
     
     return updatedPhotoGallery;
   } catch (error) {
@@ -490,6 +585,7 @@ export const updateKVNagrikData = async (nagrikData: Partial<NagrikData>): Promi
     
     await kv.set(KV_KEYS.NAGRIK, updatedNagrik);
     console.log('Nagrik updated (KV storage)');
+    try { await kv.del(CACHE_KEYS.NAGRIK); } catch {}
     
     return updatedNagrik;
   } catch (error) {
@@ -519,6 +615,7 @@ export const updateKVAdminProfile = async (profileData: Partial<AdminProfile>): 
     
     await kv.set(KV_KEYS.ADMIN_PROFILE, updatedProfile);
     console.log('Admin profile updated (KV storage)');
+    try { await kv.del(CACHE_KEYS.ADMIN_PROFILE); } catch {}
     
     return updatedProfile;
   } catch (error) {
@@ -548,6 +645,7 @@ export const updateKVKarbharanaData = async (karbharanaData: Partial<KarbharanaD
     
     await kv.set(KV_KEYS.KARBHARANA, updatedKarbharana);
     console.log('Karbharana updated (KV storage)');
+    try { await kv.del(CACHE_KEYS.KARBHARANA); } catch {}
     
     return updatedKarbharana;
   } catch (error) {
@@ -577,6 +675,7 @@ export const updateKVYojanaData = async (yojanaData: Partial<YojanaData>): Promi
     
     await kv.set(KV_KEYS.YOJANA, updatedYojana);
     console.log('Yojana updated (KV storage)');
+    try { await kv.del(CACHE_KEYS.YOJANA); } catch {}
     
     return updatedYojana;
   } catch (error) {
@@ -607,6 +706,7 @@ export const addKVComplaint = async (item: Omit<ComplaintItem, 'id' | 'createdAt
   };
   const updated: ComplaintsData = { items: [newItem, ...(current.items || [])] };
   await kv.set(KV_KEYS.COMPLAINTS, updated);
+  try { await kv.del(CACHE_KEYS.COMPLAINTS); } catch {}
   return newItem;
 };
 

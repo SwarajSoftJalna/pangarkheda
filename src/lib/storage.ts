@@ -138,10 +138,16 @@ export interface GalleryImage {
   caption: string;
 }
 
+export interface GallerySection {
+  id: string;
+  title: string;
+  images: GalleryImage[];
+}
+
 export interface PhotoGalleryData {
   heading: string;
   subheading: string;
-  images: GalleryImage[];
+  sections: GallerySection[];
 }
 
 export interface YojanaSection {
@@ -172,6 +178,7 @@ export interface ContentData {
   homepage: string;
   administrativeStructureHeading: string;
   administrativeStructureImage: string;
+  administrativeStructureMembers: OfficeBearerMember[];
   officeBearers: OfficeBearerMember[];
   ctaSection: CtaSection;
   populationStats: PopulationStats;
@@ -325,6 +332,7 @@ const defaultContentStore: ContentData = {
   `,
   administrativeStructureHeading: 'प्रशासकीय संरचना',
   administrativeStructureImage: '',
+  administrativeStructureMembers: [],
   officeBearers: [
     {
       id: '1',
@@ -663,37 +671,10 @@ const defaultNagrikData: NagrikData = {
 const defaultPhotoGalleryData: PhotoGalleryData = {
   heading: 'आम्ही आरोग्य करीता कटिबद्ध आहोत',
   subheading: 'आमच्या ग्रामपंचायतीत सांस्कृतिक, क्रीडा आणि सामाजिक कार्यक्रमांचे आयोजन केले जाते.',
-  images: [
-    {
-      id: '1',
-      src: '',
-      caption: 'आरोग्य शिबीर'
-    },
-    {
-      id: '2',
-      src: '',
-      caption: 'शाळा सभागृह कार्यक्रम'
-    },
-    {
-      id: '3',
-      src: '',
-      caption: 'महिला गट उपक्रम'
-    },
-    {
-      id: '4',
-      src: '',
-      caption: 'ग्रामसभा कार्यक्रम'
-    },
-    {
-      id: '5',
-      src: '',
-      caption: 'आरोग्य जनजागृती शिबीर'
-    },
-    {
-      id: '6',
-      src: '',
-      caption: 'सामाजिक अभियान'
-    }
+  sections: [
+    { id: 'sec-1', title: 'आरोग्य शिबीर', images: [] },
+    { id: 'sec-2', title: 'ग्रामसभा कार्यक्रम', images: [] },
+    { id: 'sec-3', title: 'महिला गट उपक्रम', images: [] }
   ]
 };
 
@@ -780,6 +761,7 @@ export const resetContent = (): ContentData => {
     homepage: '<h1>ग्रामपंचायत सावरगाव हडप, जालना</h1><p>आपल्या गावाची प्रगती, आपली जबाबदारी</p>',
     administrativeStructureHeading: 'प्रशासकीय संरचना',
     administrativeStructureImage: '',
+    administrativeStructureMembers: [],
     officeBearers: [],
     ctaSection: {
       heading: 'भारतातील पंचायती राज हे ग्रामीण स्थानिक स्वराज्य प्रणालीचे प्रतीक आहे.',

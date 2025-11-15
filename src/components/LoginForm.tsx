@@ -113,11 +113,11 @@ export default function LoginForm() {
           </div>
         </form>
 
-        <div className="text-center">
+        {/* <div className="text-center">
           <p className="text-xs text-gray-500">
-            Default credentials: sudarshan@gmail.com / 12345
+            Default credentials: gp.sawargaon@gmail.com / 12345
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

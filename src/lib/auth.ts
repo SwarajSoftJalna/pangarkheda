@@ -9,7 +9,7 @@ export interface AuthResult {
 }
 
 export const validateLogin = (credentials: LoginCredentials): AuthResult => {
-  const adminEmail = process.env.ADMIN_EMAIL || 'sudarshan@gmail.com';
+  const adminEmail = process.env.ADMIN_EMAIL || 'gp.sawargaon@gmail.com';
   const adminPassword = process.env.ADMIN_PASSWORD || '12345';
 
   if (credentials.email === adminEmail && credentials.password === adminPassword) {

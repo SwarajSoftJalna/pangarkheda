@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { 
   getKVNagrikData, 
+  getKVNagrikDataCached,
   updateKVNagrikData,
   initializeKVData 
 } from '@/lib/kv-storage';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     // Initialize KV data if needed (only runs once)
     await initializeKVData();
-    
-    const nagrikData = await getKVNagrikData();
+    const { searchParams } = new URL(request.url);
+    const noCache = searchParams.get('noCache') === '1';
+    const nagrikData = noCache ? await getKVNagrikData() : await getKVNagrikDataCached();
     return NextResponse.json({ nagrik: nagrikData });
   } catch (error) {
     console.error('Error fetching nagrik data:', error);

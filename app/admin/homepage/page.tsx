@@ -23,6 +23,7 @@ export default function HomepageAdmin() {
   const [administrativeStructureHeading, setAdministrativeStructureHeading] = useState('');
   const [administrativeStructureImage, setAdministrativeStructureImage] = useState('');
   const [officeBearers, setOfficeBearers] = useState<OfficeBearerMember[]>([]);
+  const [administrativeStructureMembers, setAdministrativeStructureMembers] = useState<OfficeBearerMember[]>([]);
   const [ctaSection, setCtaSection] = useState<CtaSection>({
     heading: '',
     subheading: '',
@@ -57,6 +58,7 @@ export default function HomepageAdmin() {
       setAdministrativeStructureHeading(data.administrativeStructureHeading || '');
       setAdministrativeStructureImage(data.administrativeStructureImage || '');
       setOfficeBearers(data.officeBearers || []);
+      setAdministrativeStructureMembers(data.administrativeStructureMembers || []);
       setCtaSection(data.ctaSection || {
         heading: '',
         subheading: '',
@@ -94,6 +96,7 @@ export default function HomepageAdmin() {
           administrativeStructureHeading: administrativeStructureHeading,
           administrativeStructureImage: administrativeStructureImage,
           officeBearers: officeBearers,
+          administrativeStructureMembers: administrativeStructureMembers,
           ctaSection: ctaSection,
           populationStats: populationStats,
           govtLogos: govtLogos,
@@ -138,6 +141,28 @@ export default function HomepageAdmin() {
 
   const updateOfficeBearerMember = (id: string, field: keyof OfficeBearerMember, value: string) => {
     setOfficeBearers(officeBearers.map(member => 
+      member.id === id ? { ...member, [field]: value } : member
+    ));
+  };
+
+  // Administrative Structure Members management functions
+  const addAdministrativeMember = () => {
+    const newMember: OfficeBearerMember = {
+      id: Date.now().toString(),
+      image: '',
+      name: '',
+      title: '',
+      desc: ''
+    };
+    setAdministrativeStructureMembers([...administrativeStructureMembers, newMember]);
+  };
+
+  const removeAdministrativeMember = (id: string) => {
+    setAdministrativeStructureMembers(administrativeStructureMembers.filter(m => m.id !== id));
+  };
+
+  const updateAdministrativeMember = (id: string, field: keyof OfficeBearerMember, value: string) => {
+    setAdministrativeStructureMembers(administrativeStructureMembers.map(member => 
       member.id === id ? { ...member, [field]: value } : member
     ));
   };
@@ -286,20 +311,18 @@ export default function HomepageAdmin() {
         </div>
       </div>
 
-      {/* Administrative Structure Section */}
+      {/* Administrative Structure Section (Enhanced like Office Bearers) */}
       <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 mb-6">
         <div className="mb-4">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Administrative Structure Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">प्रशासकीय संरचना (Administrative Structure)</h2>
           <p className="text-gray-600 text-sm">
-            Add a heading and organizational chart image to show the administrative hierarchy of your panchayat.
+            Manage the administrative structure with members, similar to Office Bearers. You can also set a heading and an organizational chart image.
           </p>
         </div>
-        
+
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Section Heading
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Section Heading</label>
             <input
               type="text"
               value={administrativeStructureHeading}
@@ -308,11 +331,9 @@ export default function HomepageAdmin() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
             />
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Organizational Chart Image
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Organizational Chart Image</label>
             <ImageUpload
               currentImage={administrativeStructureImage}
               onImageChange={setAdministrativeStructureImage}
@@ -321,14 +342,83 @@ export default function HomepageAdmin() {
             />
           </div>
         </div>
-        
+
+        <div className="mt-6 space-y-4">
+          {administrativeStructureMembers.map((member, index) => (
+            <div key={member.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-medium text-gray-800">Admin Member {index + 1}</h3>
+                <button
+                  onClick={() => removeAdministrativeMember(member.id)}
+                  className="text-red-600 hover:text-red-800 font-medium"
+                >
+                  🗑️ Remove
+                </button>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Member Photo</label>
+                  <ImageUpload
+                    currentImage={member.image}
+                    onImageChange={(url) => updateAdministrativeMember(member.id, 'image', url)}
+                    label={`Photo for ${member.name || 'Member'}`}
+                    description="Upload a professional photo of the admin member"
+                  />
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Name (Marathi)</label>
+                    <input
+                      type="text"
+                      value={member.name}
+                      onChange={(e) => updateAdministrativeMember(member.id, 'name', e.target.value)}
+                      placeholder="श्रीमती अलका ढोरे"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Designation/Title</label>
+                    <input
+                      type="text"
+                      value={member.title}
+                      onChange={(e) => updateAdministrativeMember(member.id, 'title', e.target.value)}
+                      placeholder="ग्रामपंचायत अधिकारी"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Description (Optional)</label>
+                    <textarea
+                      value={member.desc || ''}
+                      onChange={(e) => updateAdministrativeMember(member.id, 'desc', e.target.value)}
+                      placeholder="Additional information about the admin member..."
+                      rows={3}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          <button
+            onClick={addAdministrativeMember}
+            className="w-full py-3 px-4 border-2 border-dashed border-green-300 rounded-lg text-green-600 hover:bg-green-50 hover:border-green-400 transition-colors duration-200 font-medium"
+          >
+            ➕ Add Administrative Member
+          </button>
+        </div>
+
         <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-md">
           <h3 className="font-semibold text-green-800 mb-2">🏛️ Administrative Structure Tips:</h3>
           <ul className="text-sm text-green-700 space-y-1">
-            <li>• Create a clear organizational chart showing hierarchy</li>
-            <li>• Include names and positions of key officials</li>
-            <li>• Use a readable font size and clear layout</li>
-            <li>• Consider using official photos of the officials</li>
+            <li>• Add all key administrative members with photos and designations</li>
+            <li>• Arrange members according to hierarchy</li>
+            <li>• Keep designations clear and official</li>
             <li>• Update regularly when positions change</li>
           </ul>
         </div>

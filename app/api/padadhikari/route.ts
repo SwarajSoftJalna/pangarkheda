@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { 
   getKVPadadhikariData, 
+  getKVPadadhikariDataCached,
   updateKVPadadhikariData,
   initializeKVData 
 } from '@/lib/kv-storage';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     // Initialize KV data if needed (only runs once)
     await initializeKVData();
-    
-    const padadhikariData = await getKVPadadhikariData();
+    const { searchParams } = new URL(request.url);
+    const noCache = searchParams.get('noCache') === '1';
+    const padadhikariData = noCache ? await getKVPadadhikariData() : await getKVPadadhikariDataCached();
     return NextResponse.json({ padadhikari: padadhikariData });
   } catch (error) {
     console.error('Error fetching padadhikari data:', error);

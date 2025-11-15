@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { 
   getKVPhotoGalleryData, 
+  getKVPhotoGalleryDataCached,
   updateKVPhotoGalleryData,
   initializeKVData 
 } from '@/lib/kv-storage';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     // Initialize KV data if needed (only runs once)
     await initializeKVData();
-    
-    const photoGalleryData = await getKVPhotoGalleryData();
+    const { searchParams } = new URL(request.url);
+    const noCache = searchParams.get('noCache') === '1';
+    const photoGalleryData = noCache ? await getKVPhotoGalleryData() : await getKVPhotoGalleryDataCached();
     return NextResponse.json({ photoGallery: photoGalleryData });
   } catch (error) {
     console.error('Error fetching photo gallery data:', error);
@@ -56,28 +58,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate images array
-    if (!photoGallery.images || !Array.isArray(photoGallery.images)) {
+    // Validate sections array
+    if (!photoGallery.sections || !Array.isArray(photoGallery.sections)) {
       return NextResponse.json(
-        { error: 'images must be an array' },
+        { error: 'sections must be an array' },
         { status: 400 }
       );
     }
 
-    // Validate image objects
-    for (const image of photoGallery.images) {
-      if (!image.id || typeof image.caption !== 'string') {
+    // Validate section objects and nested images
+    for (const section of photoGallery.sections) {
+      if (!section.id || typeof section.title !== 'string') {
         return NextResponse.json(
-          { error: 'Each image must have id and caption fields' },
+          { error: 'Each section must have id and title fields' },
           { status: 400 }
         );
       }
-      // src can be empty for newly added images that haven't been uploaded yet
-      if (typeof image.src !== 'string') {
+      if (!Array.isArray(section.images)) {
         return NextResponse.json(
-          { error: 'Each image src must be a string (can be empty)' },
+          { error: 'Each section must have an images array' },
           { status: 400 }
         );
+      }
+      for (const image of section.images) {
+        if (!image.id || typeof image.caption !== 'string') {
+          return NextResponse.json(
+            { error: 'Each image must have id and caption fields' },
+            { status: 400 }
+          );
+        }
+        if (typeof image.src !== 'string') {
+          return NextResponse.json(
+            { error: 'Each image src must be a string (can be empty)' },
+            { status: 400 }
+          );
+        }
       }
     }
 

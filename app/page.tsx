@@ -43,6 +43,7 @@ async function getContent(): Promise<ContentData> {
       homepage: '<div><h1>ग्रामपंचायत सावरगाव हडप, जालना</h1><p>आपल्या गावाची प्रगती, आपली जबाबदारी</p></div>',
       administrativeStructureHeading: 'प्रशासकीय संरचना',
       administrativeStructureImage: '',
+      administrativeStructureMembers: [],
       officeBearers: [],
       ctaSection: {
         heading: 'भारतातील पंचायती राज हे ग्रामीण स्थानिक स्वराज्य प्रणालीचे प्रतीक आहे.',
