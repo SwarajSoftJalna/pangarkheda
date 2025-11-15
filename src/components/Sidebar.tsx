@@ -59,6 +59,12 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
       href: '/admin/yojana'
     },
     {
+      id: 'complaints',
+      title: 'तक्रारी',
+      icon: '📨',
+      href: '/admin/complaints'
+    },
+    {
       id: 'photo',
       title: 'फोटो गॅलरी',
       icon: '📸',

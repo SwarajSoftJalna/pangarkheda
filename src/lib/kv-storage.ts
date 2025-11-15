@@ -10,7 +10,9 @@ import {
   NagrikData,
   AdminProfile,
   KarbharanaData,
-  YojanaData
+  YojanaData,
+  ComplaintsData,
+  ComplaintItem
 } from './storage';
 
 // Default data (same as before)
@@ -29,7 +31,8 @@ const defaultContentStore: ContentData = {
       { id: '6-4', title: 'महात्मा गांधी तंटाश्री ग्रामीण अभियान', url: '#' },
       { id: '6-5', title: 'जल जीवन मिशन', url: '#' },
       { id: '6-6', title: 'स्वच्छ भारत अभियान', url: '#' }
-    ]}
+    ]},
+    { id: '8', title: 'तक्रार', action: 'takrarModal' }
   ],
   headerTitle: 'ग्रामपंचायत सावरगाव हडप',
   headerSubtitle: 'जालना, महाराष्ट्र',
@@ -57,6 +60,10 @@ const defaultContentStore: ContentData = {
   },
   govtLogos: [],
   lastUpdated: new Date().toISOString()
+};
+
+const defaultComplaints: ComplaintsData = {
+  items: []
 };
 
 const defaultFooterData: FooterData = {
@@ -341,7 +348,8 @@ const KV_KEYS = {
   NAGRIK: 'cms:nagrik',
   ADMIN_PROFILE: 'cms:admin-profile',
   KARBHARANA: 'cms:karbharana',
-  YOJANA: 'cms:yojana'
+  YOJANA: 'cms:yojana',
+  COMPLAINTS: 'cms:complaints'
 } as const;
 
 // Content data functions
@@ -577,6 +585,31 @@ export const updateKVYojanaData = async (yojanaData: Partial<YojanaData>): Promi
   }
 };
 
+// Complaints data functions
+export const getKVComplaints = async (): Promise<ComplaintsData> => {
+  try {
+    const cached = await kv.get<ComplaintsData>(KV_KEYS.COMPLAINTS);
+    if (cached) {
+      return cached;
+    }
+  } catch (error) {
+    console.error('Error reading complaints from KV:', error);
+  }
+  return { ...defaultComplaints };
+};
+
+export const addKVComplaint = async (item: Omit<ComplaintItem, 'id' | 'createdAt'>): Promise<ComplaintItem> => {
+  const current = await getKVComplaints();
+  const newItem: ComplaintItem = {
+    id: crypto.randomUUID(),
+    createdAt: new Date().toISOString(),
+    ...item,
+  };
+  const updated: ComplaintsData = { items: [newItem, ...(current.items || [])] };
+  await kv.set(KV_KEYS.COMPLAINTS, updated);
+  return newItem;
+};
+
 // Utility function to initialize all data with defaults
 export const initializeKVData = async (): Promise<void> => {
   try {
@@ -619,6 +652,11 @@ export const initializeKVData = async (): Promise<void> => {
     const yojanaExists = await kv.exists(KV_KEYS.YOJANA);
     if (!yojanaExists) {
       await kv.set(KV_KEYS.YOJANA, defaultYojanaData);
+    }
+
+    const complaintsExists = await kv.exists(KV_KEYS.COMPLAINTS);
+    if (!complaintsExists) {
+      await kv.set(KV_KEYS.COMPLAINTS, defaultComplaints);
     }
 
     console.log('KV data initialized successfully');
