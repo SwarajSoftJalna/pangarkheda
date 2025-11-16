@@ -2,14 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { 
   getKVPhotoGalleryData, 
   getKVPhotoGalleryDataCached,
-  updateKVPhotoGalleryData,
-  initializeKVData 
+  updateKVPhotoGalleryData
 } from '@/lib/kv-storage';
 
 export async function GET(request: Request) {
   try {
-    // Initialize KV data if needed (only runs once)
-    await initializeKVData();
     const { searchParams } = new URL(request.url);
     const noCache = searchParams.get('noCache') === '1';
     const photoGalleryData = noCache ? await getKVPhotoGalleryData() : await getKVPhotoGalleryDataCached();

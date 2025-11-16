@@ -121,6 +121,7 @@ export default async function Page() {
         <AdministrativeStructure 
           heading={content.administrativeStructureHeading}
           image={content.administrativeStructureImage}
+          members={content.administrativeStructureMembers}
         />
         <OfficeBearers data={content.officeBearers} />
         <CtaSection data={content.ctaSection} />

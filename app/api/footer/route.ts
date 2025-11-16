@@ -2,14 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { 
   getKVFooterData, 
   getKVFooterDataCached,
-  updateKVFooterData,
-  initializeKVData 
+  updateKVFooterData
 } from '@/lib/kv-storage';
 
 export async function GET(request: Request) {
   try {
-    // Initialize KV data if needed (only runs once)
-    await initializeKVData();
     const { searchParams } = new URL(request.url);
     const noCache = searchParams.get('noCache') === '1';
     const footerData = noCache ? await getKVFooterData() : await getKVFooterDataCached();

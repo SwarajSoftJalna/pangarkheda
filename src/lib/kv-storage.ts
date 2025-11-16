@@ -15,6 +15,9 @@ import {
   ComplaintItem
 } from './storage';
 
+// Use remote KV only in production; keep local dev independent of KV
+const isKVEnabled = process.env.NODE_ENV === 'production';
+
 // Default data (same as before)
 const defaultContentStore: ContentData = {
   preheader: '<p>ग्रामपंचायत सावरगाव हडप, जालना</p>',
@@ -62,6 +65,9 @@ const defaultContentStore: ContentData = {
   govtLogos: [],
   lastUpdated: new Date().toISOString()
 };
+
+// In-memory mutable store for local/dev when KV is disabled
+let localContentStore: ContentData | null = null;
 
 // Cached getters for other resources
 export const getKVPadadhikariDataCached = async (): Promise<PadadhikariData> => {
@@ -427,6 +433,13 @@ const CACHE_TTL_SECONDS = 60 * 5;
 
 // Content data functions
 export const getKVContentData = async (): Promise<ContentData> => {
+  if (!isKVEnabled) {
+    // In local/dev, keep an in-memory copy that can be updated by the CMS
+    if (!localContentStore) {
+      localContentStore = { ...defaultContentStore };
+    }
+    return localContentStore;
+  }
   try {
     const cached = await kv.get<ContentData>(KV_KEYS.CONTENT);
     if (cached) {
@@ -442,6 +455,10 @@ export const getKVContentData = async (): Promise<ContentData> => {
 
 // GET with cache (POC): serves from Redis cache layer if present
 export const getKVContentDataCached = async (): Promise<ContentData> => {
+  if (!isKVEnabled) {
+    // In local/dev just bypass KV cache
+    return getKVContentData();
+  }
   try {
     const hot = await kv.get<ContentData>(CACHE_KEYS.CONTENT);
     if (hot) return hot;
@@ -462,10 +479,16 @@ export const updateKVContentData = async (contentData: Partial<ContentData>): Pr
     const currentContent = await getKVContentData();
     const updatedContent = { ...currentContent, ...contentData, lastUpdated: new Date().toISOString() };
     
-    await kv.set(KV_KEYS.CONTENT, updatedContent);
-    console.log('Content updated (KV storage):', Object.keys(contentData));
-    // Invalidate cache (POC)
-    try { await kv.del(CACHE_KEYS.CONTENT); } catch {}
+    if (isKVEnabled) {
+      await kv.set(KV_KEYS.CONTENT, updatedContent);
+      console.log('Content updated (KV storage):', Object.keys(contentData));
+      // Invalidate cache (POC)
+      try { await kv.del(CACHE_KEYS.CONTENT); } catch {}
+    } else {
+      // In local/dev, update the in-memory store so FE reflects CMS changes
+      localContentStore = updatedContent;
+      console.log('Content updated (local/dev only, KV disabled):', Object.keys(contentData));
+    }
     
     return updatedContent;
   } catch (error) {
