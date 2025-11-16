@@ -2,14 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { 
   getKVPadadhikariData, 
   getKVPadadhikariDataCached,
-  updateKVPadadhikariData,
-  initializeKVData 
+  updateKVPadadhikariData
 } from '@/lib/kv-storage';
 
 export async function GET(request: Request) {
   try {
-    // Initialize KV data if needed (only runs once)
-    await initializeKVData();
     const { searchParams } = new URL(request.url);
     const noCache = searchParams.get('noCache') === '1';
     const padadhikariData = noCache ? await getKVPadadhikariData() : await getKVPadadhikariDataCached();

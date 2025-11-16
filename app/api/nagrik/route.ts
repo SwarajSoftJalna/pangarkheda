@@ -2,14 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { 
   getKVNagrikData, 
   getKVNagrikDataCached,
-  updateKVNagrikData,
-  initializeKVData 
+  updateKVNagrikData
 } from '@/lib/kv-storage';
 
 export async function GET(request: Request) {
   try {
-    // Initialize KV data if needed (only runs once)
-    await initializeKVData();
     const { searchParams } = new URL(request.url);
     const noCache = searchParams.get('noCache') === '1';
     const nagrikData = noCache ? await getKVNagrikData() : await getKVNagrikDataCached();
@@ -35,7 +32,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate nagrik structure
+    // Basic nagrik structure validation
     if (typeof nagrik !== 'object' || nagrik === null) {
       return NextResponse.json(
         { error: 'Invalid nagrik format. Must be an object.' },
@@ -43,7 +40,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate accordions array
+    // Validate accordions array shape (but allow empty titles/items)
     if (!nagrik.accordions || !Array.isArray(nagrik.accordions)) {
       return NextResponse.json(
         { error: 'accordions must be an array' },
@@ -51,27 +48,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate accordion objects
     for (const accordion of nagrik.accordions) {
-      if (!accordion.id || !accordion.title) {
+      if (!accordion || typeof accordion !== 'object') {
         return NextResponse.json(
-          { error: 'Each accordion must have id and title fields' },
+          { error: 'Each accordion must be an object' },
           { status: 400 }
         );
       }
 
-      if (!accordion.items || !Array.isArray(accordion.items)) {
+      // Only require an id; title can be empty string while editing
+      if (!accordion.id) {
+        return NextResponse.json(
+          { error: 'Each accordion must have an id field' },
+          { status: 400 }
+        );
+      }
+
+      if (!Array.isArray(accordion.items)) {
         return NextResponse.json(
           { error: 'Each accordion must have an items array' },
           { status: 400 }
         );
       }
 
-      // Validate items
+      // Validate items structure but allow empty label/url values
       for (const item of accordion.items) {
-        if (!item.id || !item.label || !item.type || !item.url) {
+        if (!item || typeof item !== 'object') {
           return NextResponse.json(
-            { error: 'Each item must have id, label, type, and url fields' },
+            { error: 'Each item must be an object' },
+            { status: 400 }
+          );
+        }
+
+        if (!item.id) {
+          return NextResponse.json(
+            { error: 'Each item must have an id field' },
             { status: 400 }
           );
         }

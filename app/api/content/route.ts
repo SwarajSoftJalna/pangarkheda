@@ -4,15 +4,11 @@ import {
   getKVContentDataCached,
   updateKVContentData, 
   getKVAdminProfile, 
-  updateKVAdminProfile,
-  initializeKVData 
+  updateKVAdminProfile
 } from '@/lib/kv-storage';
 
 export async function GET(request: NextRequest) {
   try {
-    // Initialize KV data if needed (only runs once)
-    await initializeKVData();
-    
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
 
