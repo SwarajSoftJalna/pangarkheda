@@ -27,14 +27,19 @@ const defaultContentStore: ContentData = {
     { id: '3', title: 'करभारणा', url: '/karbharana' },
     { id: '4', title: 'नागरिकांसाठी', url: '/nagrik' },
     { id: '5', title: 'फोटो गॅलरी', url: '/photo' },
-    { id: '6', title: 'योजना', url: '#', subItems: [
-      { id: '6-1', title: 'प्रधानमंत्री आवास योजना', url: '/pradhanmantri-aawas-yojana' },
-      { id: '6-2', title: '१५ वित्त आयोग', url: '/finance-commission' },
-      { id: '6-3', title: 'यशोदाथा योजना', url: '#' },
-      { id: '6-4', title: 'महात्मा गांधी तंटाश्री ग्रामीण अभियान', url: '#' },
-      { id: '6-5', title: 'जल जीवन मिशन', url: '#' },
-      { id: '6-6', title: 'स्वच्छ भारत अभियान', url: '#' }
-    ]},
+    {
+      id: '6', title: 'योजना', url: '#', subItems: [
+        { id: '6-1', title: 'प्रधानमंत्री आवास योजना', url: '/pradhanmantri-aawas-yojana' },
+        { id: '6-2', title: '१५ वित्त आयोग', url: '/finance-commission' },
+        { id: '6-3', title: 'जल जीवन मिशन', url: 'https://water.maharashtra.gov.in/jal-jeevan-mission/', isExternal: true },
+        { id: '6-4', title: 'महात्मा गांधी राष्ट्रीय ग्रामीण रोजगार हमी योजना', url: '/rural-employment-guarantee-scheme' },
+        { id: '6-5', title: 'बहुजन कल्याण', url: 'https://obcbahujankalyan.maharashtra.gov.in/mr/schemes/48', isExternal: true },
+        { id: '6-6', title: 'अनुसूचीत जाती व नवबौध्द विकास', url: '/scheduled-castes-and-neo-buddhist-development' },
+        { id: '6-7', title: ' रमाई आवास योजना', url: '/ramai-awas-yojana' },
+        { id: '6-8', title: ' शबरी आदिवासी घरकुल योजना', url: '/shabari-tribal-shelter-scheme' },
+        { id: '6-9', title: ' मोदी आवास योजना', url: '/modi-awas-yojana' },
+      ]
+    },
     { id: '8', title: 'तक्रार', action: 'takrarModal' }
   ],
   headerTitle: 'ग्रामपंचायत मानेपुरी',
@@ -56,13 +61,25 @@ const defaultContentStore: ContentData = {
   populationStats: {
     mainHeading: 'लोकसंख्या आकडेवारी',
     items: [
-      { id: '1', icon: '👨‍👩‍👧', count: 740, label: 'कुटुंब' },
-      { id: '2', icon: '🏠', count: 3241, label: 'लोकसंख्या' },
+      { id: '1', icon: '🏠', count: 740, label: 'कुटुंब' },
+      { id: '2', icon: '👨‍👩‍👧', count: 3241, label: 'लोकसंख्या' },
       { id: '3', icon: '👨', count: 1730, label: 'पुरुष' },
       { id: '4', icon: '👩', count: 1511, label: 'महिला' }
     ]
   },
-  govtLogos: [],
+  govtLogos: [
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395756/atalbhujal_iqvjfr.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395792/digitalIndia_t6xopn.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395808/g20_qvaoq9.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395824/jal_rptord.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395839/merigovt_eky0n8.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395883/maharastrashanshan_d1fhop.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395900/panchayatraj_k9jtzu.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395913/panchayatvikas_en2ylp.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395928/satamevjayate_w3pvxo.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395939/vasundhara_aseg5n.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395948/yojanavikas_stdqsi.png'
+  ],
   lastUpdated: new Date().toISOString()
 };
 
@@ -74,9 +91,9 @@ export const getKVPadadhikariDataCached = async (): Promise<PadadhikariData> => 
   try {
     const hot = await kv.get<PadadhikariData>(CACHE_KEYS.PADADHIKARI);
     if (hot) return hot;
-  } catch {}
+  } catch { }
   const data = await getKVPadadhikariData();
-  try { await kv.set(CACHE_KEYS.PADADHIKARI, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  try { await kv.set(CACHE_KEYS.PADADHIKARI, data, { ex: CACHE_TTL_SECONDS }); } catch { }
   return data;
 };
 
@@ -84,9 +101,9 @@ export const getKVFooterDataCached = async (): Promise<FooterData> => {
   try {
     const hot = await kv.get<FooterData>(CACHE_KEYS.FOOTER);
     if (hot) return hot;
-  } catch {}
+  } catch { }
   const data = await getKVFooterData();
-  try { await kv.set(CACHE_KEYS.FOOTER, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  try { await kv.set(CACHE_KEYS.FOOTER, data, { ex: CACHE_TTL_SECONDS }); } catch { }
   return data;
 };
 
@@ -94,9 +111,9 @@ export const getKVPhotoGalleryDataCached = async (): Promise<PhotoGalleryData> =
   try {
     const hot = await kv.get<PhotoGalleryData>(CACHE_KEYS.PHOTO_GALLERY);
     if (hot) return hot;
-  } catch {}
+  } catch { }
   const data = await getKVPhotoGalleryData();
-  try { await kv.set(CACHE_KEYS.PHOTO_GALLERY, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  try { await kv.set(CACHE_KEYS.PHOTO_GALLERY, data, { ex: CACHE_TTL_SECONDS }); } catch { }
   return data;
 };
 
@@ -104,9 +121,9 @@ export const getKVNagrikDataCached = async (): Promise<NagrikData> => {
   try {
     const hot = await kv.get<NagrikData>(CACHE_KEYS.NAGRIK);
     if (hot) return hot;
-  } catch {}
+  } catch { }
   const data = await getKVNagrikData();
-  try { await kv.set(CACHE_KEYS.NAGRIK, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  try { await kv.set(CACHE_KEYS.NAGRIK, data, { ex: CACHE_TTL_SECONDS }); } catch { }
   return data;
 };
 
@@ -114,9 +131,9 @@ export const getKVAdminProfileCached = async (): Promise<AdminProfile> => {
   try {
     const hot = await kv.get<AdminProfile>(CACHE_KEYS.ADMIN_PROFILE);
     if (hot) return hot;
-  } catch {}
+  } catch { }
   const data = await getKVAdminProfile();
-  try { await kv.set(CACHE_KEYS.ADMIN_PROFILE, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  try { await kv.set(CACHE_KEYS.ADMIN_PROFILE, data, { ex: CACHE_TTL_SECONDS }); } catch { }
   return data;
 };
 
@@ -124,9 +141,9 @@ export const getKVKarbharanaDataCached = async (): Promise<KarbharanaData> => {
   try {
     const hot = await kv.get<KarbharanaData>(CACHE_KEYS.KARBHARANA);
     if (hot) return hot;
-  } catch {}
+  } catch { }
   const data = await getKVKarbharanaData();
-  try { await kv.set(CACHE_KEYS.KARBHARANA, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  try { await kv.set(CACHE_KEYS.KARBHARANA, data, { ex: CACHE_TTL_SECONDS }); } catch { }
   return data;
 };
 
@@ -134,9 +151,9 @@ export const getKVYojanaDataCached = async (): Promise<YojanaData> => {
   try {
     const hot = await kv.get<YojanaData>(CACHE_KEYS.YOJANA);
     if (hot) return hot;
-  } catch {}
+  } catch { }
   const data = await getKVYojanaData();
-  try { await kv.set(CACHE_KEYS.YOJANA, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  try { await kv.set(CACHE_KEYS.YOJANA, data, { ex: CACHE_TTL_SECONDS }); } catch { }
   return data;
 };
 
@@ -144,9 +161,9 @@ export const getKVComplaintsCached = async (): Promise<ComplaintsData> => {
   try {
     const hot = await kv.get<ComplaintsData>(CACHE_KEYS.COMPLAINTS);
     if (hot) return hot;
-  } catch {}
+  } catch { }
   const data = await getKVComplaints();
-  try { await kv.set(CACHE_KEYS.COMPLAINTS, data, { ex: CACHE_TTL_SECONDS }); } catch {}
+  try { await kv.set(CACHE_KEYS.COMPLAINTS, data, { ex: CACHE_TTL_SECONDS }); } catch { }
   return data;
 };
 
@@ -298,13 +315,13 @@ const defaultYojanaData: YojanaData = {
     id: '1',
     heading: 'प्रधानमंत्री आवास योजना',
     pdfUrl: '',
-    content: '<p>प्रधानमंत्री आवास योजना ही भारत सरकारची एक महत्त्वाची योजना आहे. या योजनेअंतर्गत गरीब कुटुंबांना स्वस्त दरात घरे बांधण्यासाठी मदत मिळते.</p>'
+    content: '<p>✓ ग्रामीण भागातील दारिद्रय रेषेखालील बेघर/कच्चेघर असलेल्या कुटूंबांना घरकुल बांधकामासाठी अर्थसहाय्य देणे हा योजनेचा उद्देश आहे. लाभार्थ्यांची निवड ग्रामपंचायतीमार्फत केली जाते. ग्रामपंचायतीमार्फत तयार केलेली कायम प्रतिक्षा यादी ग्रामपंचायतीच्या सुचना फलकावर प्रसिध्द केली जाते. योजनेचा लाभ मिळण्यासाठी लाभार्थी दारिद्रय रेषेखालील असावा, कायम प्रतिक्षा यादीत त्याचे नाव असावे व घरकुल बांधकामासाठी स्वत:ची जागा असावी, अशा सर्वसाधारण अटी आहेत. सन 2016-17 पासून प्रधान मंत्री आवास योजना-ग्रामीण ही केंद्र पुरस्कृत योजना राबविली जाणार आहे.</p> </br> <p>✓ घरकुल बांधकामाकरिता साधारण क्षेत्रात रू.1.20 लक्ष व नक्षलग्रस्त भागाकरिता रू.1.30 लक्ष प्रति लाभार्थी अर्थसहाय देण्यात येणार आहे. प्रधान मंत्री आवास योजना-ग्रामीण योजनेचे अर्थसहाय राज्यस्तरावरील बँक खात्यातून PFMS प्रणालीव्दारे लाभार्थ्यांच्या बँक/पोस्ट खात्यात जमा होणार आहे. प्रधान मंत्री आवास योजना-ग्रामीण अंतर्गत सामाजिक, आर्थिक व जात सर्वेक्षण, 2011 मधील माहिती लाभार्थ्यांच्या निवडीकरिता वापरण्यात येणार आहे. प्रधान मंत्री आवास योजना-ग्रामीण अंतर्गत राष्ट्रीय स्तरावर तांत्रिक सहाय्य पुरविण्यासाठी राष्ट्रीय तांत्रिक सहाय्य संस्था गठीत करण्यात येणार आहे. घरकुल अनुदाना व्यतिरिक्त महात्मा गांधी राष्ट्रीय रोजगार हमी योजनेअंतर्गत 90/95 दिवसांच्या अकुशल मुजूरीच्या स्वरूपात अर्थसहाय्य दिले जाते.</p>'
   },
   financeCommission: {
     id: '2',
     heading: '१५ वित्त आयोग',
     pdfUrl: '',
-    content: '<p>१५ वित्त आयोगाच्या शिफारशीनुसार ग्रामपंचायतींना मिळणारे अनुदान आणि वित्तीय साहाय्याबद्दल माहिती.</p>'
+    content: '<p>✓ ग्रामीण भागातील दारिद्रय रेषेखालील बेघर/कच्चेघर असलेल्या कुटूंबांना घरकुल बांधकामासाठी अर्थसहाय्य देणे हा योजनेचा उद्देश आहे. लाभार्थ्यांची निवड ग्रामपंचायतीमार्फत केली जाते. ग्रामपंचायतीमार्फत तयार केलेली कायम प्रतिक्षा यादी ग्रामपंचायतीच्या सुचना फलकावर प्रसिध्द केली जाते. योजनेचा लाभ मिळण्यासाठी लाभार्थी दारिद्रय रेषेखालील असावा, कायम प्रतिक्षा यादीत त्याचे नाव असावे व घरकुल बांधकामासाठी स्वत:ची जागा असावी, अशा सर्वसाधारण अटी आहेत. सन 2016-17 पासून प्रधान मंत्री आवास योजना-ग्रामीण ही केंद्र पुरस्कृत योजना राबविली जाणार आहे.</p> </br> <p>✓ घरकुल बांधकामाकरिता साधारण क्षेत्रात रू.1.20 लक्ष व नक्षलग्रस्त भागाकरिता रू.1.30 लक्ष प्रति लाभार्थी अर्थसहाय देण्यात येणार आहे. प्रधान मंत्री आवास योजना-ग्रामीण योजनेचे अर्थसहाय राज्यस्तरावरील बँक खात्यातून PFMS प्रणालीव्दारे लाभार्थ्यांच्या बँक/पोस्ट खात्यात जमा होणार आहे. प्रधान मंत्री आवास योजना-ग्रामीण अंतर्गत सामाजिक, आर्थिक व जात सर्वेक्षण, 2011 मधील माहिती लाभार्थ्यांच्या निवडीकरिता वापरण्यात येणार आहे. प्रधान मंत्री आवास योजना-ग्रामीण अंतर्गत राष्ट्रीय स्तरावर तांत्रिक सहाय्य पुरविण्यासाठी राष्ट्रीय तांत्रिक सहाय्य संस्था गठीत करण्यात येणार आहे. घरकुल अनुदाना व्यतिरिक्त महात्मा गांधी राष्ट्रीय रोजगार हमी योजनेअंतर्गत 90/95 दिवसांच्या अकुशल मुजूरीच्या स्वरूपात अर्थसहाय्य दिले जाते.</p>'
   },
   mgnrega: {
     id: '3',
@@ -448,7 +465,7 @@ export const getKVContentData = async (): Promise<ContentData> => {
   } catch (error) {
     console.error('Error reading content from KV:', error);
   }
-  
+
   // Return default if KV fails or no data exists
   return defaultContentStore;
 };
@@ -478,18 +495,18 @@ export const updateKVContentData = async (contentData: Partial<ContentData>): Pr
   try {
     const currentContent = await getKVContentData();
     const updatedContent = { ...currentContent, ...contentData, lastUpdated: new Date().toISOString() };
-    
+
     if (isKVEnabled) {
       await kv.set(KV_KEYS.CONTENT, updatedContent);
       console.log('Content updated (KV storage):', Object.keys(contentData));
       // Invalidate cache (POC)
-      try { await kv.del(CACHE_KEYS.CONTENT); } catch {}
+      try { await kv.del(CACHE_KEYS.CONTENT); } catch { }
     } else {
       // In local/dev, update the in-memory store so FE reflects CMS changes
       localContentStore = updatedContent;
       console.log('Content updated (local/dev only, KV disabled):', Object.keys(contentData));
     }
-    
+
     return updatedContent;
   } catch (error) {
     console.error('Error updating content in KV:', error);
@@ -507,7 +524,7 @@ export const getKVPadadhikariData = async (): Promise<PadadhikariData> => {
   } catch (error) {
     console.error('Error reading padadhikari from KV:', error);
   }
-  
+
   return defaultPadadhikariData;
 };
 
@@ -515,11 +532,11 @@ export const updateKVPadadhikariData = async (padadhikariData: Partial<Padadhika
   try {
     const currentPadadhikari = await getKVPadadhikariData();
     const updatedPadadhikari = { ...currentPadadhikari, ...padadhikariData };
-    
+
     await kv.set(KV_KEYS.PADADHIKARI, updatedPadadhikari);
     console.log('Padadhikari updated (KV storage)');
-    try { await kv.del(CACHE_KEYS.PADADHIKARI); } catch {}
-    
+    try { await kv.del(CACHE_KEYS.PADADHIKARI); } catch { }
+
     return updatedPadadhikari;
   } catch (error) {
     console.error('Error updating padadhikari in KV:', error);
@@ -537,7 +554,7 @@ export const getKVFooterData = async (): Promise<FooterData> => {
   } catch (error) {
     console.error('Error reading footer from KV:', error);
   }
-  
+
   return defaultFooterData;
 };
 
@@ -545,11 +562,11 @@ export const updateKVFooterData = async (footerData: Partial<FooterData>): Promi
   try {
     const currentFooter = await getKVFooterData();
     const updatedFooter = { ...currentFooter, ...footerData };
-    
+
     await kv.set(KV_KEYS.FOOTER, updatedFooter);
     console.log('Footer updated (KV storage)');
-    try { await kv.del(CACHE_KEYS.FOOTER); } catch {}
-    
+    try { await kv.del(CACHE_KEYS.FOOTER); } catch { }
+
     return updatedFooter;
   } catch (error) {
     console.error('Error updating footer in KV:', error);
@@ -567,7 +584,7 @@ export const getKVPhotoGalleryData = async (): Promise<PhotoGalleryData> => {
   } catch (error) {
     console.error('Error reading photo gallery from KV:', error);
   }
-  
+
   return defaultPhotoGalleryData;
 };
 
@@ -575,11 +592,11 @@ export const updateKVPhotoGalleryData = async (photoGalleryData: Partial<PhotoGa
   try {
     const currentPhotoGallery = await getKVPhotoGalleryData();
     const updatedPhotoGallery = { ...currentPhotoGallery, ...photoGalleryData };
-    
+
     await kv.set(KV_KEYS.PHOTO_GALLERY, updatedPhotoGallery);
     console.log('Photo gallery updated (KV storage):', photoGalleryData.heading ? `Updated heading: ${photoGalleryData.heading}` : 'Updated images');
-    try { await kv.del(CACHE_KEYS.PHOTO_GALLERY); } catch {}
-    
+    try { await kv.del(CACHE_KEYS.PHOTO_GALLERY); } catch { }
+
     return updatedPhotoGallery;
   } catch (error) {
     console.error('Error updating photo gallery in KV:', error);
@@ -597,7 +614,7 @@ export const getKVNagrikData = async (): Promise<NagrikData> => {
   } catch (error) {
     console.error('Error reading nagrik from KV:', error);
   }
-  
+
   return defaultNagrikData;
 };
 
@@ -605,11 +622,11 @@ export const updateKVNagrikData = async (nagrikData: Partial<NagrikData>): Promi
   try {
     const currentNagrik = await getKVNagrikData();
     const updatedNagrik = { ...currentNagrik, ...nagrikData };
-    
+
     await kv.set(KV_KEYS.NAGRIK, updatedNagrik);
     console.log('Nagrik updated (KV storage)');
-    try { await kv.del(CACHE_KEYS.NAGRIK); } catch {}
-    
+    try { await kv.del(CACHE_KEYS.NAGRIK); } catch { }
+
     return updatedNagrik;
   } catch (error) {
     console.error('Error updating nagrik in KV:', error);
@@ -627,7 +644,7 @@ export const getKVAdminProfile = async (): Promise<AdminProfile> => {
   } catch (error) {
     console.error('Error reading admin profile from KV:', error);
   }
-  
+
   return defaultAdminProfile;
 };
 
@@ -635,11 +652,11 @@ export const updateKVAdminProfile = async (profileData: Partial<AdminProfile>): 
   try {
     const currentProfile = await getKVAdminProfile();
     const updatedProfile = { ...currentProfile, ...profileData };
-    
+
     await kv.set(KV_KEYS.ADMIN_PROFILE, updatedProfile);
     console.log('Admin profile updated (KV storage)');
-    try { await kv.del(CACHE_KEYS.ADMIN_PROFILE); } catch {}
-    
+    try { await kv.del(CACHE_KEYS.ADMIN_PROFILE); } catch { }
+
     return updatedProfile;
   } catch (error) {
     console.error('Error updating admin profile in KV:', error);
@@ -657,7 +674,7 @@ export const getKVKarbharanaData = async (): Promise<KarbharanaData> => {
   } catch (error) {
     console.error('Error reading karbharana from KV:', error);
   }
-  
+
   return defaultKarbharanaData;
 };
 
@@ -665,11 +682,11 @@ export const updateKVKarbharanaData = async (karbharanaData: Partial<KarbharanaD
   try {
     const currentKarbharana = await getKVKarbharanaData();
     const updatedKarbharana = { ...currentKarbharana, ...karbharanaData };
-    
+
     await kv.set(KV_KEYS.KARBHARANA, updatedKarbharana);
     console.log('Karbharana updated (KV storage)');
-    try { await kv.del(CACHE_KEYS.KARBHARANA); } catch {}
-    
+    try { await kv.del(CACHE_KEYS.KARBHARANA); } catch { }
+
     return updatedKarbharana;
   } catch (error) {
     console.error('Error updating karbharana in KV:', error);
@@ -687,7 +704,7 @@ export const getKVYojanaData = async (): Promise<YojanaData> => {
   } catch (error) {
     console.error('Error reading yojana from KV:', error);
   }
-  
+
   return defaultYojanaData;
 };
 
@@ -695,11 +712,11 @@ export const updateKVYojanaData = async (yojanaData: Partial<YojanaData>): Promi
   try {
     const currentYojana = await getKVYojanaData();
     const updatedYojana = { ...currentYojana, ...yojanaData };
-    
+
     await kv.set(KV_KEYS.YOJANA, updatedYojana);
     console.log('Yojana updated (KV storage)');
-    try { await kv.del(CACHE_KEYS.YOJANA); } catch {}
-    
+    try { await kv.del(CACHE_KEYS.YOJANA); } catch { }
+
     return updatedYojana;
   } catch (error) {
     console.error('Error updating yojana in KV:', error);
@@ -729,7 +746,7 @@ export const addKVComplaint = async (item: Omit<ComplaintItem, 'id' | 'createdAt
   };
   const updated: ComplaintsData = { items: [newItem, ...(current.items || [])] };
   await kv.set(KV_KEYS.COMPLAINTS, updated);
-  try { await kv.del(CACHE_KEYS.COMPLAINTS); } catch {}
+  try { await kv.del(CACHE_KEYS.COMPLAINTS); } catch { }
   return newItem;
 };
 

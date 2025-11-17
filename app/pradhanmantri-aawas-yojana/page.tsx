@@ -3,6 +3,7 @@ import { YojanaData, ContentData } from '@/lib/storage';
 import PreHeader from '@/components/PreHeader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import GovtLogos from '@/components/GovtLogos';
 
 async function getYojanaData(): Promise<YojanaData> {
   try {
@@ -284,6 +285,7 @@ export default async function PradhanMantriAawasYojanaPage() {
       <Suspense fallback={<LoadingSkeleton />}>
         <YojanaSection yojanaData={yojanaData} />
       </Suspense>
+      <GovtLogos logos={contentData?.govtLogos || []} />
       <Footer />
     </>
   );
