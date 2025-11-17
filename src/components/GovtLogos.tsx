@@ -2,13 +2,26 @@ interface GovtLogosProps {
   logos: string[];
 }
 
-export default function GovtLogos({ logos }: GovtLogosProps) {
-  if (!logos || logos.length === 0) {
-    return null;
-  }
+const govtLogos: GovtLogosProps = {
+  logos: [
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395756/atalbhujal_iqvjfr.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395792/digitalIndia_t6xopn.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395808/g20_qvaoq9.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395824/jal_rptord.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395839/merigovt_eky0n8.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395883/maharastrashanshan_d1fhop.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395900/panchayatraj_k9jtzu.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395913/panchayatvikas_en2ylp.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395928/satamevjayate_w3pvxo.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395939/vasundhara_aseg5n.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395948/yojanavikas_stdqsi.png'
+  ]
+};
+
+export default function GovtLogos() {
 
   // Filter out empty logo URLs
-  const validLogos = logos.filter(logo => logo && logo.trim() !== '');
+  const validLogos = govtLogos.logos.filter(logo => logo && logo.trim() !== '');
 
   if (validLogos.length === 0) {
     return null;

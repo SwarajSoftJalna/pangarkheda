@@ -125,7 +125,7 @@ export default function ModiAwasYojanaPage() {
           </div>
         </div>
       </main>
-      <GovtLogos logos={contentData?.govtLogos || []} />
+      <GovtLogos />
 
       <Footer />
     </div>

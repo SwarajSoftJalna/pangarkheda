@@ -156,7 +156,7 @@ export default async function NagrikPage() {
           </div>
         </section>
       </Suspense>
-      <GovtLogos logos={contentData.govtLogos} />
+      <GovtLogos />
 
       {/* Footer */}
       <Footer />

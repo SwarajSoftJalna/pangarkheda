@@ -126,7 +126,7 @@ export default async function Page() {
         <OfficeBearers data={content.officeBearers} />
         <CtaSection data={content.ctaSection} />
         <PopulationStats data={content.populationStats} />
-        <GovtLogos logos={content.govtLogos} />
+        <GovtLogos  />
         {/* <Homepage content={content.homepage} /> */}
       </Suspense>
       
