@@ -125,7 +125,7 @@ export default function ShabariTribalShelterSchemePage() {
           </div>
         </div>
       </main>
-      <GovtLogos logos={contentData?.govtLogos || []} />
+      <GovtLogos />
       <Footer />
     </div>
   );

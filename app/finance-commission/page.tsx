@@ -153,7 +153,7 @@ export default function FinanceCommissionPage() {
           </div>
         </div>
       </main>
-      <GovtLogos logos={contentData?.govtLogos || []} />
+      <GovtLogos />
       <Footer />
     </div>
   );

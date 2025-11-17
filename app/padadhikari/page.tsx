@@ -149,7 +149,7 @@ export default async function PadadhikariPage() {
           </div>
         </section>
       </Suspense>
-      <GovtLogos logos={contentData.govtLogos} />
+      <GovtLogos />
 
       {/* Footer */}
       <Footer />

@@ -158,7 +158,7 @@ export default async function KarbharanaPage() {
         </section>
       </Suspense>
 
-      <GovtLogos logos={contentData?.govtLogos || []} />
+      <GovtLogos />
       
 
       {/* Footer */}

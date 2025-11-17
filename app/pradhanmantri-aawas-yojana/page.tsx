@@ -285,7 +285,7 @@ export default async function PradhanMantriAawasYojanaPage() {
       <Suspense fallback={<LoadingSkeleton />}>
         <YojanaSection yojanaData={yojanaData} />
       </Suspense>
-      <GovtLogos logos={contentData?.govtLogos || []} />
+      <GovtLogos />
       <Footer />
     </>
   );

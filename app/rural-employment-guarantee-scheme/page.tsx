@@ -143,7 +143,7 @@ export default function RuralEmploymentGuaranteeSchemePage() {
           </div>
         </div>
       </main>
-      <GovtLogos logos={contentData?.govtLogos || []} />
+      <GovtLogos />
       <Footer />
     </div>
   );
