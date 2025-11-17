@@ -337,7 +337,7 @@ const defaultContentStore: ContentData = {
     {
       id: '1',
       image: '',
-      name: 'श्रीमती अलका ढोरे',
+      name: 'ग्रामपंचायत अधिकारी नाव',
       title: 'ग्रामपंचायत अधिकारी',
       desc: ''
     },
