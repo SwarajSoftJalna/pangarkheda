@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SectionHeading from '@/components/SectionHeading';
 import PadadhikariTabs from '@/components/PadadhikariTabs';
+import GovtLogos from '@/components/GovtLogos';
 
 async function getPadadhikariData(): Promise<PadadhikariData> {
   try {
@@ -148,6 +149,7 @@ export default async function PadadhikariPage() {
           </div>
         </section>
       </Suspense>
+      <GovtLogos logos={contentData.govtLogos} />
 
       {/* Footer */}
       <Footer />

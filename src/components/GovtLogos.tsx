@@ -27,7 +27,7 @@ export default function GovtLogos({ logos }: GovtLogosProps) {
                 <img
                   src={logo}
                   alt={`Government Logo ${index + 1}`}
-                  className="h-16 md:h-20 w-auto max-w-[120px] md:max-w-[150px] object-contain transition-transform duration-300 hover:scale-110 filter grayscale hover:grayscale-0"
+                  className="h-16 md:h-20 w-auto max-w-[120px] md:max-w-[150px] object-contain transition-transform duration-300 hover:scale-110 filter hover:grayscale-0"
                   loading="lazy"
                 />
               </div>

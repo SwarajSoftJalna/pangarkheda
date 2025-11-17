@@ -5,6 +5,7 @@ import PreHeader from '@/components/PreHeader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { ContentData, MenuItem } from '@/lib/storage';
+import GovtLogos from '@/components/GovtLogos';
 
 interface YojanaSection {
   id: string;
@@ -152,7 +153,7 @@ export default function FinanceCommissionPage() {
           </div>
         </div>
       </main>
-
+      <GovtLogos logos={contentData?.govtLogos || []} />
       <Footer />
     </div>
   );

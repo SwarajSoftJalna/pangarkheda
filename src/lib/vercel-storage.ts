@@ -2,11 +2,11 @@
 // This is a temporary solution for Vercel deployment
 // For production, you should implement a proper database (Vercel KV, Supabase, etc.)
 
-import { 
-  ContentData, 
-  PadadhikariData, 
-  FooterData, 
-  PhotoGalleryData, 
+import {
+  ContentData,
+  PadadhikariData,
+  FooterData,
+  PhotoGalleryData,
   NagrikData,
   AdminProfile
 } from './storage';
@@ -20,13 +20,20 @@ const defaultContentStore: ContentData = {
     { id: '3', title: 'करभारणा', url: '/karbharana' },
     { id: '4', title: 'नागरिकांसाठी', url: '/nagrik' },
     { id: '5', title: 'फोटो गॅलरी', url: '/photo' },
-    { id: '6', title: 'योजना', url: '#', subItems: [
-      { id: '6-1', title: 'यशोदाथा योजना', url: '#' },
-      { id: '6-2', title: 'महात्मा गांधी तंटाश्री ग्रामीण अभियान', url: '#' },
-      { id: '6-3', title: 'राष्ट्रीय ग्रामीण पेयजल योजना', url: '#' },
-      { id: '6-4', title: 'प्रधानमंत्री आवास योजना', url: '#' },
-      { id: '6-5', title: 'सौर ऊर्जा योजना', url: '#' }
-    ]}
+    {
+      id: '6', title: 'योजना', url: '#', subItems: [
+        { id: '6-1', title: 'प्रधानमंत्री आवास योजना', url: '/pradhanmantri-aawas-yojana' },
+        { id: '6-2', title: '१५ वित्त आयोग', url: '/finance-commission' },
+        { id: '6-3', title: 'जल जीवन मिशन', url: 'https://water.maharashtra.gov.in/jal-jeevan-mission/', isExternal: true },
+        { id: '6-4', title: 'महात्मा गांधी राष्ट्रीय ग्रामीण रोजगार हमी योजना', url: '/rural-employment-guarantee-scheme' },
+        { id: '6-5', title: 'बहुजन कल्याण', url: 'https://obcbahujankalyan.maharashtra.gov.in/mr/schemes/48', isExternal: true },
+        { id: '6-6', title: 'अनुसूचीत जाती व नवबौध्द विकास', url: '/scheduled-castes-and-neo-buddhist-development' },
+        { id: '6-7', title: ' रमाई आवास योजना', url: '/ramai-awas-yojana' },
+        { id: '6-8', title: ' शबरी आदिवासी घरकुल योजना', url: '/shabari-tribal-shelter-scheme' },
+        { id: '6-9', title: ' मोदी आवास योजना', url: '/modi-awas-yojana' },
+      ]
+    },
+    { id: '7', title: 'तक्रार', action: 'takrarModal' }
   ],
   headerTitle: 'ग्रामपंचायत मानेपुरी',
   headerSubtitle: 'जालना, महाराष्ट्र',
@@ -47,13 +54,26 @@ const defaultContentStore: ContentData = {
   populationStats: {
     mainHeading: 'लोकसंख्या आकडेवारी',
     items: [
-      { id: '1', icon: '👨‍👩‍👧', count: 740, label: 'कुटुंब' },
-      { id: '2', icon: '🏠', count: 3241, label: 'लोकसंख्या' },
+      { id: '1', icon: '🏠', count: 740, label: 'कुटुंब' },
+      { id: '2', icon: '👨‍👩‍👧', count: 3241, label: 'लोकसंख्या' },
       { id: '3', icon: '👨', count: 1730, label: 'पुरुष' },
       { id: '4', icon: '👩', count: 1511, label: 'महिला' }
     ]
   },
-  govtLogos: [],
+  govtLogos: [
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395756/atalbhujal_iqvjfr.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395792/digitalIndia_t6xopn.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395808/g20_qvaoq9.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395824/jal_rptord.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395839/merigovt_eky0n8.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395883/maharastrashanshan_d1fhop.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395900/panchayatraj_k9jtzu.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395913/panchayatvikas_en2ylp.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395928/satamevjayate_w3pvxo.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395939/vasundhara_aseg5n.png',
+    'https://res.cloudinary.com/dusmiv4xe/image/upload/v1763395948/yojanavikas_stdqsi.png'
+
+  ],
   lastUpdated: new Date().toISOString()
 };
 

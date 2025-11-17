@@ -131,18 +131,6 @@ export default async function Page() {
       </Suspense>
       
       <Footer />
-      
-      {/* Admin Link */}
-      <div className="fixed bottom-4 right-4 z-40">
-        <a
-          href="/login"
-          className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md shadow-lg hover:shadow-xl transition-all duration-200 flex items-center"
-          title="Admin Panel"
-        >
-          <span className="mr-2">🔐</span>
-          Admin Login
-        </a>
-      </div>
     </div>
   );
 }

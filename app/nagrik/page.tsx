@@ -4,6 +4,7 @@ import PreHeader from '@/components/PreHeader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import NagrikAccordion from '@/components/NagrikAccordion';
+import GovtLogos from '@/components/GovtLogos';
 
 async function getNagrikData(): Promise<NagrikData> {
   try {
@@ -155,6 +156,7 @@ export default async function NagrikPage() {
           </div>
         </section>
       </Suspense>
+      <GovtLogos logos={contentData.govtLogos} />
 
       {/* Footer */}
       <Footer />

@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import TaxReportSection from '@/components/TaxReportSection';
 import PaymentAccordion from '@/components/PaymentAccordion';
+import GovtLogos from '@/components/GovtLogos';
 
 async function getKarbharanaData(): Promise<KarbharanaData> {
   try {
@@ -156,6 +157,9 @@ export default async function KarbharanaPage() {
           </div>
         </section>
       </Suspense>
+
+      <GovtLogos logos={contentData?.govtLogos || []} />
+      
 
       {/* Footer */}
       <Footer />
