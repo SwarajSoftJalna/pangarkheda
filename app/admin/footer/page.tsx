@@ -396,7 +396,7 @@ export default function FooterAdmin() {
               <textarea
                 value={footerData.address.lines}
                 onChange={(e) => updateAddress('lines', e.target.value)}
-                placeholder="यू. पो. सावरगाव हडप, ता: जालना, जि: जालना, पिन: 423401"
+                placeholder="यू. पो. मानेपुरी, ता: जालना, जि: जालना, पिन: 423401"
                 rows={3}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
               />

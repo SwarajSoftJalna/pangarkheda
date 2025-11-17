@@ -50,12 +50,12 @@ async function getContentData(): Promise<ContentData> {
     console.error('Error fetching content data:', error);
     // Return fallback content if fetch fails
     return {
-      preheader: '<p>ग्रामपंचायत सावरगाव हडप, जालना</p>',
+      preheader: '<p>ग्रामपंचायत मानेपुरी, जालना</p>',
       header: [
         { id: '1', title: 'होम', url: '/' },
         { id: '2', title: 'फोटो गॅलरी', url: '/photo' }
       ],
-      headerTitle: 'ग्रामपंचायत सावरगाव हडप',
+      headerTitle: 'ग्रामपंचायत मानेपुरी',
       headerSubtitle: 'जालना, महाराष्ट्र',
       bannerImage: '',
       about: '',

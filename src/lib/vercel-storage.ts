@@ -13,7 +13,7 @@ import {
 
 // Import the default data directly (they're not exported, so we need to recreate them)
 const defaultContentStore: ContentData = {
-  preheader: '<p>ग्रामपंचायत सावरगाव हडप, जालना</p>',
+  preheader: '<p>ग्रामपंचायत मानेपुरी, जालना</p>',
   header: [
     { id: '1', title: 'होम', url: '/' },
     { id: '2', title: 'पदाधिकारी', url: '/padadhikari' },
@@ -28,12 +28,12 @@ const defaultContentStore: ContentData = {
       { id: '6-5', title: 'सौर ऊर्जा योजना', url: '#' }
     ]}
   ],
-  headerTitle: 'ग्रामपंचायत सावरगाव हडप',
+  headerTitle: 'ग्रामपंचायत मानेपुरी',
   headerSubtitle: 'जालना, महाराष्ट्र',
   bannerImage: '',
-  about: '<h2>आमची पदाधिकारी</h2><p>ग्रामपंचायत सावरगाव हडप, जालना</p>',
-  yashodatha: '<h2>यशोदाथा योजना</h2><p>ग्रामपंचायत सावरगाव हडप येथील यशोदाथा योजनेची माहिती</p>',
-  homepage: '<div><h1>ग्रामपंचायत सावरगाव हडप, जालना</h1><p>आपल्या गावाची प्रगती, आपली जबाबदारी</p></div>',
+  about: '<h2>आमची पदाधिकारी</h2><p>ग्रामपंचायत मानेपुरी, जालना</p>',
+  yashodatha: '<h2>यशोदाथा योजना</h2><p>ग्रामपंचायत मानेपुरी येथील यशोदाथा योजनेची माहिती</p>',
+  homepage: '<div><h1>ग्रामपंचायत मानेपुरी, जालना</h1><p>आपल्या गावाची प्रगती, आपली जबाबदारी</p></div>',
   administrativeStructureHeading: 'प्रशासकीय संरचना',
   administrativeStructureImage: '',
   administrativeStructureMembers: [],
@@ -75,7 +75,7 @@ const defaultFooterData: FooterData = {
     youtube: '#'
   },
   address: {
-    lines: 'ग्रामपंचायत सावरगाव हडप, ता. जालना, जि. जालना, पिन कोड: 431203',
+    lines: 'ग्रामपंचायत मानेपुरी, ता. जालना, जि. जालना, पिन कोड: 431203',
     phone: '+91-9730746355',
     mapLink: 'https://maps.google.com/?q=Savargaon+Hadap+Jalna',
     code: 'GP-MAH-JAL-001'
@@ -229,7 +229,7 @@ const defaultNagrikData: NagrikData = {
 
 const defaultAdminProfile: AdminProfile = {
   displayName: 'Administrator',
-  email: 'gp.sawargaon@gmail.com'
+  email: 'gp.manepuri@gmail.com'
 };
 
 // In-memory storage (will reset on each function invocation)

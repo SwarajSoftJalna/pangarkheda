@@ -232,7 +232,7 @@ export default function SettingsAdmin() {
               <li>• Title appears as the main heading in the header</li>
               <li>• Subtitle appears below the title in smaller text</li>
               <li>• Keep titles concise for better mobile display</li>
-              <li>• Example: "ग्रामपंचायत सावरगाव हडप" / "जालना, महाराष्ट्र"</li>
+              <li>• Example: "ग्रामपंचायत मानेपुरी" / "जालना, महाराष्ट्र"</li>
             </ul>
           </div>
         </div>
@@ -268,7 +268,7 @@ export default function SettingsAdmin() {
               <li>• Keep it concise - this appears as a scrolling banner on mobile</li>
               <li>• Include important contact information or announcements</li>
               <li>• Use | (pipe) symbols to separate different pieces of information</li>
-              <li>• Example: "ग्रामपंचायत सावरगाव हडप | gp.jalna@gmail.com | +91-9730746355"</li>
+              <li>• Example: "ग्रामपंचायत मानेपुरी | gp.jalna@gmail.com | +91-9730746355"</li>
             </ul>
           </div>
         </div>

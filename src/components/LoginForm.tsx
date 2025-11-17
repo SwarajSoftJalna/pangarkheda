@@ -43,7 +43,7 @@ export default function LoginForm() {
             Admin Login
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            ग्रामपंचायत सावरगाव हडप - Admin Panel
+            ग्रामपंचायत मानेपुरी - Admin Panel
           </p>
         </div>
         
@@ -115,7 +115,7 @@ export default function LoginForm() {
 
         {/* <div className="text-center">
           <p className="text-xs text-gray-500">
-            Default credentials: gp.sawargaon@gmail.com / 12345
+            Default credentials: gp.manepuri@gmail.com / 12345
           </p>
         </div> */}
       </div>

@@ -49,12 +49,12 @@ async function getContentData(): Promise<ContentData> {
     console.error('Error fetching content data:', error);
     // Return fallback content if fetch fails
     return {
-      preheader: '<p>ग्रामपंचायत सावरगाव हडप, जालना</p>',
+      preheader: '<p>ग्रामपंचायत मानेपुरी, जालना</p>',
       header: [
         { id: '1', title: 'होम', url: '/' },
         { id: '2', title: 'करभारणा', url: '/karbharana' }
       ],
-      headerTitle: 'ग्रामपंचायत सावरगाव हडप',
+      headerTitle: 'ग्रामपंचायत मानेपुरी',
       headerSubtitle: 'जालना, महाराष्ट्र',
       bannerImage: '',
       about: '',
@@ -131,7 +131,7 @@ export default async function KarbharanaPage() {
               </h1>
               <div className="h-1 w-16 bg-green-600 mb-4"></div>
               <p className="text-lg text-gray-600 max-w-2xl">
-                ग्रामपंचायत सावरगाव हडप येथील वार्षिक कर वसूली अहवाल आणि पेमेंट माहिती
+                ग्रामपंचायत मानेपुरी येथील वार्षिक कर वसूली अहवाल आणि पेमेंट माहिती
               </p>
             </div>
 

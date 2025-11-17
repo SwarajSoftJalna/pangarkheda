@@ -30,17 +30,17 @@ async function getContent(): Promise<ContentData> {
     console.error('Error fetching content:', error);
     // Return default content if fetch fails
     return {
-      preheader: '<p>ग्रामपंचायत सावरगाव हडप, जालना</p>',
-      headerTitle: 'ग्रामपंचायत सावरगाव हडप',
+      preheader: '<p>ग्रामपंचायत मानेपुरी, जालना</p>',
+      headerTitle: 'ग्रामपंचायत मानेपुरी',
       headerSubtitle: 'जालना, महाराष्ट्र',
       bannerImage: '',
-      about: '<h2>आमची पदाधिकारी</h2><p>ग्रामपंचायत सावरगाव हडप, जालना</p>',
-      yashodatha: '<h2>यशोदाथा योजना</h2><p>ग्रामपंचायत सावरगाव हडप येथील यशोदाथा योजनेची माहिती</p>',
+      about: '<h2>आमची पदाधिकारी</h2><p>ग्रामपंचायत मानेपुरी, जालना</p>',
+      yashodatha: '<h2>यशोदाथा योजना</h2><p>ग्रामपंचायत मानेपुरी येथील यशोदाथा योजनेची माहिती</p>',
       header: [
         { id: '1', title: 'होम', url: '/' },
         { id: '2', title: 'पदाधिकारी', url: '/padadhikari' }
       ],
-      homepage: '<div><h1>ग्रामपंचायत सावरगाव हडप, जालना</h1><p>आपल्या गावाची प्रगती, आपली जबाबदारी</p></div>',
+      homepage: '<div><h1>ग्रामपंचायत मानेपुरी, जालना</h1><p>आपल्या गावाची प्रगती, आपली जबाबदारी</p></div>',
       administrativeStructureHeading: 'प्रशासकीय संरचना',
       administrativeStructureImage: '',
       administrativeStructureMembers: [],
