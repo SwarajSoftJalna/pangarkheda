@@ -5,9 +5,9 @@ import '@/styles/globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Gram Panchayat CMS',
+  title: 'ग्रामपंचायत मानेपुरी',
   description: 'A modern content management system for Gram Panchayat websites',
-  keywords: 'gram panchayat, cms, content management, village administration',
+  keywords: 'ग्रामपंचायत, मानेपुरी, ग्रामपंचायत संस्था, ग्रामपंचायत संस्था, Manepuri, Gram Panchayat, Gram Panchayat CMS, Gram Panchayat Management System',
 };
 
 export default function RootLayout({
