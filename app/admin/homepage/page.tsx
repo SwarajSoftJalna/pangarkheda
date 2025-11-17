@@ -311,6 +311,42 @@ export default function HomepageAdmin() {
         </div>
       </div>
 
+           {/* About Section Editor */}
+      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 mb-6">
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">About Section Editor</h2>
+          <p className="text-gray-600 text-sm">
+            Create and edit the about section content that appears between the banner and main content.
+            Include information about officials, village details, and statistics.
+          </p>
+        </div>
+        
+        <EditorClient
+          value={aboutContent}
+          onEditorChange={setAboutContent}
+          placeholder="Enter about section content here..."
+          height={400}
+        />
+
+         <EditorClient
+          value={yashodathaContent}
+          onEditorChange={setYashodathaContent}
+          placeholder="Enter about section content here..."
+          height={400}
+        />
+        
+        <div className="mt-4 p-4 bg-purple-50 border border-purple-200 rounded-md">
+          <h3 className="font-semibold text-purple-800 mb-2">ℹ️ About Section Tips:</h3>
+          <ul className="text-sm text-purple-700 space-y-1">
+            <li>• Include information about village officials and their roles</li>
+            <li>• Add village statistics like population, demographics, etc.</li>
+            <li>• Mention key facilities and services available</li>
+            <li>• Use headings to organize different sections of information</li>
+          </ul>
+        </div>
+      </div>
+
+
       {/* Administrative Structure Section (Enhanced like Office Bearers) */}
       <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 mb-6">
         <div className="mb-4">
@@ -797,41 +833,6 @@ export default function HomepageAdmin() {
             <li>• Responsive layout: 6-8 logos per row on desktop, 2-3 on mobile</li>
             <li>• Hover effect will slightly enlarge each logo</li>
             <li>• Use official government logos only</li>
-          </ul>
-        </div>
-      </div>
-
-      {/* About Section Editor */}
-      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 mb-6">
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">About Section Editor</h2>
-          <p className="text-gray-600 text-sm">
-            Create and edit the about section content that appears between the banner and main content.
-            Include information about officials, village details, and statistics.
-          </p>
-        </div>
-        
-        <EditorClient
-          value={aboutContent}
-          onEditorChange={setAboutContent}
-          placeholder="Enter about section content here..."
-          height={400}
-        />
-
-         <EditorClient
-          value={yashodathaContent}
-          onEditorChange={setYashodathaContent}
-          placeholder="Enter about section content here..."
-          height={400}
-        />
-        
-        <div className="mt-4 p-4 bg-purple-50 border border-purple-200 rounded-md">
-          <h3 className="font-semibold text-purple-800 mb-2">ℹ️ About Section Tips:</h3>
-          <ul className="text-sm text-purple-700 space-y-1">
-            <li>• Include information about village officials and their roles</li>
-            <li>• Add village statistics like population, demographics, etc.</li>
-            <li>• Mention key facilities and services available</li>
-            <li>• Use headings to organize different sections of information</li>
           </ul>
         </div>
       </div>
