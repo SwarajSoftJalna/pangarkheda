@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 async function getYojanaData(): Promise<YojanaData> {
   try {
     const baseUrl = process.env.NODE_ENV === 'production' 
-      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://gpm-orcin.vercel.app'
+      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://grampanchayatmanepuri.in'
       : 'http://localhost:3000';
     const response = await fetch(`${baseUrl}/api/yojana`, {
       cache: 'no-store', // Always fetch fresh content
@@ -72,7 +72,7 @@ async function getYojanaData(): Promise<YojanaData> {
 async function getContentData(): Promise<ContentData> {
   try {
     const baseUrl = process.env.NODE_ENV === 'production' 
-      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://gpm-orcin.vercel.app'
+      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://grampanchayatmanepuri.in'
       : 'http://localhost:3000';
     const response = await fetch(`${baseUrl}/api/content`, {
       cache: 'no-store', // Always fetch fresh content

@@ -25,7 +25,7 @@ const response = await fetch('/api/karbharana', {
 
 // ✅ AFTER (Works in both SSR and Client)
 const baseUrl = process.env.NODE_ENV === 'production' 
-  ? process.env.NEXT_PUBLIC_BASE_URL || 'https://gpm-orcin.vercel.app'
+  ? process.env.NEXT_PUBLIC_BASE_URL || 'https://grampanchayatmanepuri.in'
   : 'http://localhost:3000';
 const response = await fetch(`${baseUrl}/api/karbharana`, {
   cache: 'no-store',
@@ -40,7 +40,7 @@ const response = await fetch(`${baseUrl}/api/karbharana`, {
 
 **Production (`NODE_ENV === 'production'`):**
 - Uses `NEXT_PUBLIC_BASE_URL` if set
-- Falls back to `https://gpm-orcin.vercel.app`
+- Falls back to `https://grampanchayatmanepuri.in`
 - Works for Vercel deployment
 
 ## 📋 Files Updated
@@ -90,7 +90,7 @@ const response = await fetch(`${baseUrl}/api/karbharana`, {
 
 **Production Environment:**
 - `NODE_ENV === 'production'`
-- Uses `https://gpm-orcin.vercel.app/api/...`
+- Uses `https://grampanchayatmanepuri.in/api/...`
 - Perfect for Vercel deployment
 
 ## 📊 Status After Fix

@@ -9,7 +9,7 @@ import GalleryGrid from '@/components/GalleryGrid';
 async function getPhotoGalleryData(): Promise<PhotoGalleryData> {
   try {
     const baseUrl = process.env.NODE_ENV === 'production' 
-      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://gpm-orcin.vercel.app'
+      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://grampanchayatmanepuri.in'
       : 'http://localhost:3000';
     const response = await fetch(`${baseUrl}/api/photo`, {
       cache: 'no-store', // Always fetch fresh content
@@ -35,7 +35,7 @@ async function getPhotoGalleryData(): Promise<PhotoGalleryData> {
 async function getContentData(): Promise<ContentData> {
   try {
     const baseUrl = process.env.NODE_ENV === 'production' 
-      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://gpm-orcin.vercel.app'
+      ? process.env.NEXT_PUBLIC_BASE_URL || 'https://grampanchayatmanepuri.in'
       : 'http://localhost:3000';
     const response = await fetch(`${baseUrl}/api/content`, {
       cache: 'no-store', // Always fetch fresh content
