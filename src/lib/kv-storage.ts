@@ -20,7 +20,7 @@ const isKVEnabled = process.env.NODE_ENV === 'production';
 
 // Default data (same as before)
 const defaultContentStore: ContentData = {
-  preheader: '<p>ग्रामपंचायत मानेपुरी, जालना</p>',
+  preheader: '<p>ग्रामपंचायत पांगरखेडा, जालना</p>',
   header: [
     { id: '1', title: 'होम', url: '/' },
     { id: '2', title: 'पदाधिकारी', url: '/padadhikari' },
@@ -42,12 +42,12 @@ const defaultContentStore: ContentData = {
     },
     { id: '8', title: 'तक्रार', action: 'takrarModal' }
   ],
-  headerTitle: 'ग्रामपंचायत मानेपुरी',
+  headerTitle: 'ग्रामपंचायत पांगरखेडा',
   headerSubtitle: 'जालना, महाराष्ट्र',
   bannerImage: '',
-  about: '<h2>आमची पदाधिकारी</h2><p>ग्रामपंचायत मानेपुरी, जालना</p>',
-  yashodatha: '<h2>यशोदाथा योजना</h2><p>ग्रामपंचायत मानेपुरी येथील यशोदाथा योजनेची माहिती</p>',
-  homepage: '<div><h1>ग्रामपंचायत मानेपुरी, जालना</h1><p>आपल्या गावाची प्रगती, आपली जबाबदारी</p></div>',
+  about: '<h2>आमची पदाधिकारी</h2><p>ग्रामपंचायत पांगरखेडा, जालना</p>',
+  yashodatha: '<h2>यशोदाथा योजना</h2><p>ग्रामपंचायत पांगरखेडा येथील यशोदाथा योजनेची माहिती</p>',
+  homepage: '<div><h1>ग्रामपंचायत पांगरखेडा, जालना</h1><p>आपल्या गावाची प्रगती, आपली जबाबदारी</p></div>',
   administrativeStructureHeading: 'प्रशासकीय संरचना',
   administrativeStructureImage: '',
   administrativeStructureMembers: [],
@@ -189,7 +189,7 @@ const defaultFooterData: FooterData = {
     youtube: '#'
   },
   address: {
-    lines: 'ग्रामपंचायत मानेपुरी, ता. जालना, जि. जालना, पिन कोड: 431203',
+    lines: 'ग्रामपंचायत पांगरखेडा, ता. जालना, जि. जालना, पिन कोड: 431203',
     phone: '+91-9730746355',
     mapLink: 'https://maps.google.com/?q=Savargaon+Hadap+Jalna',
     code: 'GP-MAH-JAL-001'

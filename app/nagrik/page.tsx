@@ -48,12 +48,12 @@ async function getContentData(): Promise<ContentData> {
     console.error('Error fetching content data:', error);
     // Return fallback content if fetch fails
     return {
-      preheader: '<p>ग्रामपंचायत मानेपुरी, जालना</p>',
+      preheader: '<p>ग्रामपंचायत पांगरखेडा, जालना</p>',
       header: [
         { id: '1', title: 'होम', url: '/' },
         { id: '2', title: 'नागरिकांसाठी', url: '/nagrik' }
       ],
-      headerTitle: 'ग्रामपंचायत मानेपुरी',
+      headerTitle: 'ग्रामपंचायत पांगरखेडा',
       headerSubtitle: 'जालना, महाराष्ट्र',
       bannerImage: '',
       about: '',
@@ -130,7 +130,7 @@ export default async function NagrikPage() {
               </h1>
               <div className="w-16 h-1 bg-green-600 mx-auto mb-4"></div>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                ग्रामपंचायत मानेपुरी येथील नागरिकांसाठी आवश्यक फॉर्म आणि सेवा
+                ग्रामपंचायत पांगरखेडा येथील नागरिकांसाठी आवश्यक फॉर्म आणि सेवा
               </p>
             </div>
 

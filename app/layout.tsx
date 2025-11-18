@@ -5,9 +5,9 @@ import '@/styles/globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'ग्रामपंचायत मानेपुरी',
+  title: 'ग्रामपंचायत पांगरखेडा',
   description: 'A modern content management system for Gram Panchayat websites',
-  keywords: 'ग्रामपंचायत, मानेपुरी, ग्रामपंचायत संस्था, ग्रामपंचायत संस्था, Manepuri, Gram Panchayat, Gram Panchayat CMS, Gram Panchayat Management System',
+  keywords: 'ग्रामपंचायत, पांगरखेडा, ग्रामपंचायत संस्था, ग्रामपंचायत संस्था, Manepuri, Gram Panchayat, Gram Panchayat CMS, Gram Panchayat Management System',
 };
 
 export default function RootLayout({
