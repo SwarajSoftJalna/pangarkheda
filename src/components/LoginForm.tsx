@@ -43,7 +43,7 @@ export default function LoginForm() {
             Admin Login
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            ग्रामपंचायत मानेपुरी - Admin Panel
+            ग्रामपंचायत पांगरखेडा - Admin Panel
           </p>
         </div>
         

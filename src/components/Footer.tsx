@@ -216,7 +216,7 @@ export default function Footer() {
           <div className="mt-8 pt-6 border-t border-gray-700">
             <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
               <p className="text-gray-400 text-sm">
-                © {new Date().getFullYear()} ग्रामपंचायत मानेपुरी. सर्व हक्क राखीव.
+                © {new Date().getFullYear()} ग्रामपंचायत पांगरखेडा. सर्व हक्क राखीव.
               </p>
               <p className="text-gray-500 text-xs">
                 Powered by Swaraj Gram Software
